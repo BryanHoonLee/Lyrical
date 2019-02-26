@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Tutory</string>
+
+    <!--Registration Activity-->
+    <string name="registration_activity_already_have_an_account">Already Have An Account?</string>
+    <string name="registration_activity_username_hint">Username</string>
+    <string name="registration_activity_email_hint">Email</string>
+    <string name="registration_activity_password_hint">Password</string>
+    <string name="registration_activity_register_button">Register</string>
+
+    <!--Login Activity-->
+    <string name="login_activity_email_hint">Email</string>
+    <string name="login_activity_password_hint">Password</string>
+    <string name="login_activity_login_button">Login</string>
+    <string name="login_activity_create_an_account">New User? Create An Account</string>
+
+    <!-- Setup Account Activity -->
+    <string name="setup_account_fragment_welcome">Welcome To Tutory</string>
+    <string name="setup_account_fragment_get_started">Let\'s Get You Started!</string>
+    <string name="setup_account_fragment_next">Next</string>
+
+    <!-- Menu Items -->
+    <string name="bottom_navigation_menu_home">Home</string>
+    <string name="bottom_navigation_menu_search">Search</string>
+    <string name="bottom_navigation_menu_profile">Profile</string>
+
+</resources>
