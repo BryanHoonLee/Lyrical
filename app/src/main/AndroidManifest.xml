@@ -19,6 +19,8 @@
         <activity android:name=".WelcomePageActivity"></activity>
         <activity android:name=".RegistrationActivity"></activity>
         <activity android:name=".HomeActivity"></activity>
+
+
     </application>
 
 </manifest>

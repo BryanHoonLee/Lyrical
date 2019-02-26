@@ -1,2 +1,0 @@
-package hoonstudio.com.tutory
-
