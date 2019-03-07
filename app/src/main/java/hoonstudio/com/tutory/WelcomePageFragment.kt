@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_setup_account_welcome.*
+import kotlinx.android.synthetic.main.fragment_welcome_page.*
 
 class WelcomePageFragment : Fragment(){
 
@@ -30,12 +31,19 @@ class WelcomePageFragment : Fragment(){
         // The third parameter of 'inflate' specifies whether the inflated fragment should be added to the container.
         // The container is the parent view that will hold the fragment's view hierarchy
         // This should always be set to false - the FragmentManager will take care of adding the fragment to container
-        val view: View = inflater!!.inflate(R.layout.fragment_setup_account_welcome, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_welcome_page, container, false)
+        val setupAccountNextTextView: TextView = view.findViewById(R.id.setupAccountNextTextView)
 
         setupAccountNextTextView.setOnClickListener {
-
+            if(savedInstanceState == null){
+                activity?.
+                    supportFragmentManager?.
+                    beginTransaction()?.
+                    replace(R.id.container, WelcomePageProfileFragment.newInstance())?.
+                    addToBackStack(null)?.
+                    commit()
+            }
         }
-
         return view
     }
 

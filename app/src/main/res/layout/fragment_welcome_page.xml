@@ -8,7 +8,7 @@
             android:textSize="48sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="@string/setup_account_fragment_welcome"
+            android:text="@string/welcome_page_fragment_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/setupAccountWelcomeTextView" android:layout_marginTop="32dp"
@@ -19,7 +19,7 @@
             android:textSize="28sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="@string/setup_account_fragment_get_started"
+            android:text="@string/welcome_page_fragment_get_started"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/setupAccountGetStartedTextView"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toBottomOf="@+id/setupAccountWelcomeTextView"
             android:textColor="@color/colorPrimaryDark"/>
     <Button
-            android:text="@string/setup_account_fragment_next"
+            android:text="@string/welcome_page_fragment_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"

@@ -7,7 +7,7 @@ class WelcomePageActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setup_account)
+        setContentView(R.layout.activity_welcome_page)
 
         if(savedInstanceState == null){
             supportFragmentManager
@@ -15,6 +15,7 @@ class WelcomePageActivity : AppCompatActivity(){
                 .add(R.id.container, WelcomePageFragment.newInstance(), "welcomePage")
                 .commit()
         }
+
     }
 }
 
