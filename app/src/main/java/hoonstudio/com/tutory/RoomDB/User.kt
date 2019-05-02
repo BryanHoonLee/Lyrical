@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory
+package hoonstudio.com.tutory.RoomDB
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -18,5 +18,18 @@ import androidx.room.PrimaryKey
 //@ColumnInfo(name = "word")
 //Specify the name of the column in the table if you want it to be different from the name of the member variable.
 //Every field that's stored in the database needs to be either public or have a "getter" method.
+
+//A data class refers to a class that contains only fields and crude methods for accessing them (getters and setters).
+// These are simply containers for data used by other classes.
+// These classes do not contain any additional functionality and cannot independently operate on the data that they own.
 @Entity(tableName = "user_table")
-class User(@PrimaryKey @ColumnInfo(name = "user") val word: String)
+data class User(@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long?,
+                @ColumnInfo(name = "username") val username: String,
+                @ColumnInfo(name = "email") val email : String,
+                @ColumnInfo(name = "password") val password: String,
+                @ColumnInfo(name = "address") var address : String?,
+                @ColumnInfo(name = "state") var state : String?,
+                @ColumnInfo(name = "city") var city : String?,
+                @ColumnInfo(name = "zipcode") var zipcode: String?,
+                @ColumnInfo(name = "phone_number") var phoneNumber: String?){
+}

@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.RoomDB
+package hoonstudio.com.tutory
 
 import android.app.Activity
 import android.content.Intent
@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import hoonstudio.com.tutory.R
 
 class NewUserActivity : AppCompatActivity(){
 
@@ -33,6 +32,6 @@ class NewUserActivity : AppCompatActivity(){
     }
 
     companion object {
-        const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"
+        const val EXTRA_REPLY = "NewUserActivity.REPLY"
     }
 }

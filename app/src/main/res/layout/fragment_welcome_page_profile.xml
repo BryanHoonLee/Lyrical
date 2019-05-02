@@ -4,17 +4,6 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent" android:id="@+id/linearLayout">
 
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/birthdayEditText"
-            android:hint="@string/welcome_page_profile_fragment_birthday"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/cityEditText"
-            app:layout_constraintStart_toStartOf="@+id/cityEditText"
-            app:layout_constraintEnd_toEndOf="@+id/zipCodeEditText"/>
     <Button
             android:text="@string/welcome_page_profile_fragment_next"
             android:layout_width="wrap_content"
@@ -65,9 +54,9 @@
             android:ems="10"
             android:id="@+id/phoneNumberEditText"
             android:hint="@string/welcome_page_profile_fragment_phone_number"
-            app:layout_constraintEnd_toEndOf="@+id/birthdayEditText"
-            app:layout_constraintStart_toStartOf="@+id/birthdayEditText" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/birthdayEditText"/>
+            app:layout_constraintEnd_toEndOf="@+id/zipCodeEditText"
+            app:layout_constraintStart_toStartOf="@+id/cityEditText" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/cityEditText"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
