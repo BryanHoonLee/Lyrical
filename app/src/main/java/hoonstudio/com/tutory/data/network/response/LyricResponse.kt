@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.data.response
+package hoonstudio.com.tutory.data.network.response
 
 import hoonstudio.com.tutory.data.RoomDB.entity.Message
 

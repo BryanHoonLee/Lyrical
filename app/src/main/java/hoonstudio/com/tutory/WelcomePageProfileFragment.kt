@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import hoonstudio.com.tutory.RoomDB.UserViewModel
+import hoonstudio.com.tutory.data.RoomDB.UserViewModel
 import kotlinx.android.synthetic.main.fragment_welcome_page_profile.*
 
 class WelcomePageProfileFragment: Fragment(){

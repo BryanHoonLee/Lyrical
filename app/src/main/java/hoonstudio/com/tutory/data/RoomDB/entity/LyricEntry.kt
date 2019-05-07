@@ -1,9 +1,15 @@
-package hoonstudio.com.tutory.data.response
+package hoonstudio.com.tutory.data.RoomDB.entity
 
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "lyric_table")
 data class LyricEntry(
+    @PrimaryKey(autoGenerate = true)
+    val id : Long?,
     @SerializedName("backlink_url")
     val backlinkUrl: String,
     val instrumental: Int,

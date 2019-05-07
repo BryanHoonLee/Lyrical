@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.RoomDB
+package hoonstudio.com.tutory.data.RoomDB
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -8,25 +8,25 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import hoonstudio.com.tutory.RoomDB.User
-import hoonstudio.com.tutory.RoomDB.UserViewModel
+import hoonstudio.com.tutory.data.RoomDB.User
+import hoonstudio.com.tutory.data.RoomDB.UserViewModel
 
 
 class RegistrationActivity : AppCompatActivity(){
 
     private lateinit var userViewModel: UserViewModel
-    private lateinit var registrationUsernameEditText: EditText
-    private lateinit var registrationEmailEditText: EditText
-    private lateinit var registrationPasswordEditText: EditText
+//    private lateinit var registrationUsernameEditText: EditText
+//    private lateinit var registrationEmailEditText: EditText
+//    private lateinit var registrationPasswordEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
         Log.d("RegistrationActivity: ", "brOOOOOO START WTF")
 
-        registrationUsernameEditText = findViewById<EditText>(R.id.registrationUsernameEditText)
-        registrationEmailEditText = findViewById<EditText>(R.id.registrationEmailEditText)
-        registrationPasswordEditText = findViewById<EditText>(R.id.registrationPasswordEditText)
+        val registrationUsernameEditText = findViewById<EditText>(R.id.registrationUsernameEditText)
+        val registrationEmailEditText = findViewById<EditText>(R.id.registrationEmailEditText)
+        val registrationPasswordEditText = findViewById<EditText>(R.id.registrationPasswordEditText)
         Log.d("RegistrationActivity: ", "YOOOOOOOOOO START WTF")
 
 
@@ -40,10 +40,10 @@ class RegistrationActivity : AppCompatActivity(){
 
         val registrationButton = findViewById<Button>(R.id.registrationButton)
         registrationButton.setOnClickListener {
-            var username = registrationUsernameEditText.text.toString()
+            val username = registrationUsernameEditText.text.toString()
             Log.d("RegistrationActivity: ", username)
-            var email = registrationEmailEditText.text.toString()
-            var password = registrationPasswordEditText.text.toString()
+            val email = registrationEmailEditText.text.toString()
+            val password = registrationPasswordEditText.text.toString()
             val user = User(null, username, email, password, null, null, null, null, null)
             Log.d("RegistrationActivity2: ", username)
             userViewModel.insert(user)

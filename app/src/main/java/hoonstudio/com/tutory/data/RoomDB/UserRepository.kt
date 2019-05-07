@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.RoomDB
+package hoonstudio.com.tutory.data.RoomDB
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData

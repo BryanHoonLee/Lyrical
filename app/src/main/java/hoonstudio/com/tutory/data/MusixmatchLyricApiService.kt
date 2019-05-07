@@ -1,6 +1,7 @@
 package hoonstudio.com.tutory.data
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import hoonstudio.com.tutory.data.network.response.LyricResponse
 import kotlinx.coroutines.Deferred
 
 import okhttp3.Interceptor
@@ -21,7 +22,7 @@ interface MusixmatchLyricApiService {
     @GET("track.lyrics.get")
     fun getLyrics(
         @Query("track_id") trackID: String
-    ): Deferred<Lyrics>
+    ): Deferred<LyricResponse>
 
     companion object {
         operator fun invoke(): MusixmatchLyricApiService{
