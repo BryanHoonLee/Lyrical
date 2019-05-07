@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.data
+package hoonstudio.com.tutory.data.response
 
 
 data class Message(
