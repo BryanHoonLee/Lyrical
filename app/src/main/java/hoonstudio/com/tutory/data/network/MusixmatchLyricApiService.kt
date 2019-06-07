@@ -1,6 +1,8 @@
 package hoonstudio.com.tutory.data
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import hoonstudio.com.tutory.data.network.ConnectivityInterceptor
+import hoonstudio.com.tutory.data.network.ConnectivityInterceptorImpl
 import hoonstudio.com.tutory.data.network.response.LyricResponse
 import kotlinx.coroutines.Deferred
 
@@ -25,7 +27,9 @@ interface MusixmatchLyricApiService {
     ): Deferred<LyricResponse>
 
     companion object {
-        operator fun invoke(): MusixmatchLyricApiService{
+        operator fun invoke(
+            connectivityInterceptor : ConnectivityInterceptor
+        ): MusixmatchLyricApiService{
             val requestInterceptor = Interceptor { chain ->
                 val url = chain.request()
                     .url()
@@ -42,6 +46,7 @@ interface MusixmatchLyricApiService {
 
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
             return Retrofit.Builder()
