@@ -5,10 +5,12 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent">
 
-    <include
-        layout="@layout/content_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:background="@color/colorWhite"
+            tools:listitem="@layout/recyclerview_item_user"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

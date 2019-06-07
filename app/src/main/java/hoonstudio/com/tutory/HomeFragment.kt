@@ -38,7 +38,6 @@ class HomeFragment : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // move this stuff to onActivitycreated
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.recyclerView)
         val adapter = UserListAdapter(activity!!.applicationContext)
         recyclerView?.adapter = adapter

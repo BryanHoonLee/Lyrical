@@ -21,13 +21,13 @@ class UserListAdapter internal constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val itemView = inflater.inflate(R.layout.user_recyclerview_item, parent, false)
+        val itemView = inflater.inflate(R.layout.recyclerview_item_user, parent, false)
         Log.d("onCreateViewHolder: ", "test")
         return UserViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int){
-        val current = users[position]
+        val current = users.get(position)
         Log.d("onBindViewHolder: ", holder.userItemView.text.toString())
         holder.userItemView.text = current.username
     }

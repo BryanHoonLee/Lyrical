@@ -7,7 +7,7 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:background="@color/colorWhite"
-            tools:listitem="@layout/user_recyclerview_item"
+            tools:listitem="@layout/recyclerview_item_user"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 </LinearLayout>
