@@ -28,7 +28,7 @@ class SongListAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: SongListViewHolder, position: Int) {
-        val current = songs[position]
+        val current = songs.get(position)
         Log.d("onBindViewHolder: ", holder.songItemView.text.toString())
         holder.songItemView.text = current.songName
         Log.d("onBindViewHolder: ", holder.songItemView.text.toString())

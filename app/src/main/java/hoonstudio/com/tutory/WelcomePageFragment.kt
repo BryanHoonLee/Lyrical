@@ -36,12 +36,12 @@ class WelcomePageFragment : Fragment(){
 
         setupAccountNextTextView.setOnClickListener {
             if(savedInstanceState == null){
-                activity?.
-                    supportFragmentManager?.
-                    beginTransaction()?.
-                    replace(R.id.container, WelcomePageProfileFragment.newInstance())?.
-                    addToBackStack(null)?.
-                    commit()
+//                activity?.
+//                    supportFragmentManager?.
+//                    beginTransaction()?.
+//                    replace(R.id.container, WelcomePageProfileFragment.newInstance())?.
+//                    addToBackStack(null)?.
+//                    commit()
             }
         }
         return view
