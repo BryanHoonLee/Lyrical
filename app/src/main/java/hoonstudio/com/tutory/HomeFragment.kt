@@ -2,11 +2,14 @@ package hoonstudio.com.tutory
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,6 +20,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import hoonstudio.com.tutory.data.RoomDB.User
 import hoonstudio.com.tutory.data.RoomDB.UserListAdapter
 import hoonstudio.com.tutory.data.RoomDB.UserViewModel
+import hoonstudio.com.tutory.data.network.GeniusApiService
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(){
 
@@ -26,13 +34,31 @@ class HomeFragment : Fragment(){
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val fab = view.findViewById<FloatingActionButton>(R.id.fab)
 
+        val webView = view.findViewById<WebView>(R.id.webView)
+
         fab.setOnClickListener {
             Log.d("HomeFragment", "Clicked FAB - Start NewUserActivity")
-            val intent = Intent(activity, NewUserActivity::class.java)
-            startActivityForResult(intent, newUserActivityRequstCode)
+//            val intent = Intent(activity, NewUserActivity::class.java)
+//            startActivityForResult(intent, newUserActivityRequstCode)
+            webView.loadUrl("https://genius.com/Justin-bieber-love-yourself-lyrics")
+
+            webView.webViewClient = object : WebViewClient() {
+                override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
+                    Log.i("WEB_VIEW_TEST", "error code:$errorCode")
+                    super.onReceivedError(view, errorCode, description, failingUrl)
+                }
+            }
         }
 
         return view
+    }
+
+    fun openWebPage(url: String) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        if (intent.resolveActivity(activity?.packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -48,7 +74,12 @@ class HomeFragment : Fragment(){
             users?.let{ adapter.setUsers(it)}
         })
 
+        val apiService = GeniusApiService()
+        GlobalScope.launch(Dispatchers.Main) {
+            val currentResponse = apiService.getSong("Sunday Morning").await()
 
+            webView.loadUrl(currentResponse.response.hits[0].result.url)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

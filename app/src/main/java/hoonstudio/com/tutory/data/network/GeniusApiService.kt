@@ -1,10 +1,9 @@
 package hoonstudio.com.tutory.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import hoonstudio.com.tutory.data.network.response.LyricResponse
-import hoonstudio.com.tutory.data.network.response.SongResponse
+import hoonstudio.com.tutory.Keys
+import hoonstudio.com.tutory.data.network.response.SearchResponse
 import kotlinx.coroutines.Deferred
-
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -12,34 +11,29 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-//https://developer.musixmatch.com/documentation
-//https://api.musixmatch.com/ws/1.1/track.lyrics.get?track_id=15953433&apikey=72249f17600a4ff504f618946bd0d0ef
+val CLIENT_KEY = Keys.GENIUS_CLIENT_ACCESS_TOKEN
 
-// this interface will be used by retrofit to fetch data from the API
-const val API_KEY = "72249f17600a4ff504f618946bd0d0ef"
+// https://api.genius.com/search?access_token=CLIENT_KEY&q=love%20yourself
+interface GeniusApiService{
 
-interface MusixmatchLyricApiService {
-
-    @GET("track.get")
+    @GET(value = "search")
     fun getSong(
-        @Query("track_id") trackID: String
-    ): Deferred<SongResponse>
+        @Query(value = "q") songName: String
+    ): Deferred<SearchResponse>
 
-    @GET("track.lyrics.get")
-    fun getLyrics(
-        @Query("track_id") trackID: String
-    ): Deferred<LyricResponse>
-
-    companion object {
-        operator fun invoke(
-            connectivityInterceptor : ConnectivityInterceptor
-        ): MusixmatchLyricApiService {
+    companion object{
+        //can do something like fun create() instead of operator fun invoke() but this allows you to call
+        // GeniusApiService() instead of having to do GeniusApiService.create()
+        operator fun invoke(): GeniusApiService{
+            //Interceptor is an anonymous class with 1 function so you can use the lambda syntax
             val requestInterceptor = Interceptor { chain ->
+                //adds the CLIENT KEY into the url where it says 'access_token='
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("apikey", API_KEY)
+                    .addQueryParameter("access_token", CLIENT_KEY)
                     .build()
+                //adds the updated url into the chain
                 val request = chain.request()
                     .newBuilder()
                     .url(url)
@@ -48,19 +42,18 @@ interface MusixmatchLyricApiService {
                 return@Interceptor chain.proceed(request)
             }
 
+            // this makes every call get intercepted by requestInterceptor
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
-                .addInterceptor(connectivityInterceptor)
                 .build()
 
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl("https://api.musixmatch.com/ws/1.1/")
+                .baseUrl("https://api.genius.com/")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(MusixmatchLyricApiService::class.java)
-
+                .create(GeniusApiService::class.java)
         }
     }
 }
