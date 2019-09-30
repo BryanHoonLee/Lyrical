@@ -24,7 +24,9 @@ interface GeniusApiService{
     companion object{
         //can do something like fun create() instead of operator fun invoke() but this allows you to call
         // GeniusApiService() instead of having to do GeniusApiService.create()
-        operator fun invoke(): GeniusApiService{
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): GeniusApiService{
             //Interceptor is an anonymous class with 1 function so you can use the lambda syntax
             val requestInterceptor = Interceptor { chain ->
                 //adds the CLIENT KEY into the url where it says 'access_token='
@@ -45,6 +47,7 @@ interface GeniusApiService{
             // this makes every call get intercepted by requestInterceptor
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
             return Retrofit.Builder()

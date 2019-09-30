@@ -8,7 +8,7 @@
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:background="@color/colorWhite"
-            tools:listitem="@layout/recyclerview_item_song_name"
+            tools:listitem=""
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
