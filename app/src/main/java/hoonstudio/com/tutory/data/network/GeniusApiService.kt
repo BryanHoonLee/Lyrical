@@ -1,7 +1,7 @@
 package hoonstudio.com.tutory.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import hoonstudio.com.tutory.Keys
+import hoonstudio.com.tutory.internal.Keys
 import hoonstudio.com.tutory.data.network.response.SearchResponse
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor

@@ -1,4 +1,6 @@
-package hoonstudio.com.tutory
+package hoonstudio.com.tutory.internal
+
+import hoonstudio.com.tutory.BuildConfig
 
 class Keys{
 

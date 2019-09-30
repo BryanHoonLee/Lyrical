@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
 
 
 class MainActivity : AppCompatActivity() {
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
-        when(it.itemId){
+        when (it.itemId) {
             R.id.home -> {
                 val homeFragment = HomeFragment.newInstance()
                 startFragment(homeFragment)
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity() {
                 startFragment(searchFragment)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.profile ->{
+            R.id.profile -> {
                 val profileFragment = ProfileFragment.newInstance()
                 startFragment(profileFragment)
                 return@OnNavigationItemSelectedListener true
@@ -30,12 +32,21 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    private fun startFragment(fragment: Fragment){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+    private fun startFragment(fragment: Fragment) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
+
+    private fun initFragment(fragment: Fragment){
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, fragment)
+            .commit()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,9 +55,21 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         val homeFragment = HomeFragment.newInstance()
-        startFragment(homeFragment)
+        initFragment(homeFragment)
+    }
 
-
+    override fun onBackPressed() {
+        var backStackEntryCount = supportFragmentManager.backStackEntryCount
+        if (backStackEntryCount == 0) {
+            AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes",
+                    DialogInterface.OnClickListener { dialog, which -> super@MainActivity.onBackPressed() })
+                .setNegativeButton("No", null)
+                .show()
+        } else {
+            super@MainActivity.onBackPressed()
+        }
 
     }
 }

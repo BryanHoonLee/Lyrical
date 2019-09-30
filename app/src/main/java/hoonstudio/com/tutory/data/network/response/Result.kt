@@ -1,6 +1,7 @@
 package hoonstudio.com.tutory.data.network.response
 
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
@@ -22,8 +23,9 @@ data class Result(
     @SerializedName("lyrics_state")
     val lyricsState: String,
     val path: String,
-//    @SerializedName("primary_artist")
-//    val primaryArtist: PrimaryArtist,
+    @Embedded(prefix = "primary_artist_")
+    @SerializedName("primary_artist")
+    val primaryArtist: PrimaryArtist,
 //    @SerializedName("pyongs_count")
 //    val pyongsCount: Any,
     @SerializedName("song_art_image_thumbnail_url")
