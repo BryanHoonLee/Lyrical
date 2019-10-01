@@ -1,5 +1,6 @@
 package hoonstudio.com.tutory.data.network
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,23 +8,31 @@ import hoonstudio.com.tutory.data.network.response.SearchResponse
 import hoonstudio.com.tutory.internal.NoConnectivityException
 
 class SongNetworkDataSourceImpl(
-    private val geniusApiService: GeniusApiService
+    application: Application
 ) : SongNetworkDataSource {
+    private val geniusApiService: GeniusApiService
 
     private val _song = MutableLiveData<SearchResponse>()
-
     override val song: LiveData<SearchResponse>
         get() = _song
 
-    override suspend fun fetchSong(songName: String) {
+    init{
+        geniusApiService = GeniusApiService(ConnectivityInterceptorImpl(application.applicationContext))
+    }
+
+
+    override suspend fun fetchSong(songName: String): LiveData<SearchResponse> {
         try{
             val fetchedSong = geniusApiService
                 .getSong(songName)
                 .await()
+
             _song.postValue(fetchedSong)
+
         }
         catch (e: NoConnectivityException){
             Log.e("Connectivity", "No internet connection")
         }
+        return song
     }
 }

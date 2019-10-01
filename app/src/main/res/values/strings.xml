@@ -1,35 +1,8 @@
 <resources>
     <string name="app_name">Tutory</string>
 
-    <!--Registration Activity-->
-    <string name="registration_activity_already_have_an_account">Already Have An Account?</string>
-    <string name="registration_activity_username_hint">Username</string>
-    <string name="registration_activity_email_hint">Email</string>
-    <string name="registration_activity_password_hint">Password</string>
-    <string name="registration_activity_register_button">Register</string>
-
-    <!--Login Activity-->
-    <string name="login_activity_email_hint">Email</string>
-    <string name="login_activity_password_hint">Password</string>
-    <string name="login_activity_login_button">Login</string>
-    <string name="login_activity_create_an_account">New User? Create An Account</string>
-
-    <!-- Welcome Page Activity -->
-
-        <!-- Welcome Page Fragment -->
-        <string name="welcome_page_fragment_welcome">Welcome To Tutory</string>
-        <string name="welcome_page_fragment_get_started">Let\'s Get You Started!</string>
-        <string name="welcome_page_fragment_next">Next</string>
-
-        <!-- Welcome Page Profile Fragment -->
-        <string name="welcome_page_profile_fragment_header">Personal Info </string>
-        <string name="welcome_page_profile_fragment_address">Address</string>
-        <string name="welcome_page_profile_fragment_city">City</string>
-        <string name="welcome_page_profile_fragment_zip_code">Zip Code</string>
-        <string name="welcome_page_profile_fragment_birthday">Birthday MM/DD/YYYY</string>
-        <string name="welcome_page_profile_fragment_phone_number">Phone Number</string>
-    <string name="welcome_page_profile_fragment_state">State</string>
-        <string name="welcome_page_profile_fragment_next">Next</string>
+    <!-- Search Fragment -->
+    <string name="recent_search">Recent Searches</string>
 
     <!-- Menu Items -->
     <string name="bottom_navigation_menu_home">Home</string>

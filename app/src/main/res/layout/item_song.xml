@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-    <ImageView android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/song_art_image"
-               android:src="@mipmap/ic_launcher_round"
-               android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-               app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content">
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/song_art_image"
+                   android:src="@mipmap/ic_launcher_round"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:id="@+id/title"
-              android:text="Dancing"
-              android:textStyle="bold"
-              app:layout_constraintStart_toEndOf="@+id/song_art_image" android:layout_marginStart="8dp"
-              app:layout_constraintTop_toTopOf="@+id/song_art_image"/>
+        <TextView android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/title"
+                  android:text="Dancing"
+                  android:textStyle="bold"
+                  app:layout_constraintStart_toEndOf="@+id/song_art_image" android:layout_marginStart="8dp"
+                  app:layout_constraintTop_toTopOf="@+id/song_art_image"/>
 
-    <TextView android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:id="@+id/artist"
-              android:text="Mellow Fellow"
-              app:layout_constraintTop_toBottomOf="@+id/title" app:layout_constraintStart_toStartOf="@+id/title"
-              app:layout_constraintBottom_toBottomOf="@+id/song_art_image"/>
+        <TextView android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/artist"
+                  android:text="Mellow Fellow"
+                  app:layout_constraintTop_toBottomOf="@+id/title" app:layout_constraintStart_toStartOf="@+id/title"
+                  app:layout_constraintBottom_toBottomOf="@+id/song_art_image"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView android:layout_width="0dp"
-              android:layout_height="wrap_content"
-    android:id="@+id/album"
-    android:text=""/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

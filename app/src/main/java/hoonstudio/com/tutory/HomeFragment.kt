@@ -45,15 +45,7 @@ class HomeFragment : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val apiService = GeniusApiService(ConnectivityInterceptorImpl(this.context!!))
-        val songNetworkDataSource = SongNetworkDataSourceImpl(apiService)
 
-        songNetworkDataSource.song.observe(this, Observer {
-            webView.loadUrl(it.response.hits[0].result.url)
-        })
-        GlobalScope.launch(Dispatchers.Main) {
-            songNetworkDataSource.fetchSong("Dancing Mellow Fellow")
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

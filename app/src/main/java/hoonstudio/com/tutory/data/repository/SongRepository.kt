@@ -5,5 +5,5 @@ import hoonstudio.com.tutory.data.network.response.SearchResponse
 
 interface SongRepository {
 
-    suspend fun getSong(): LiveData<SearchResponse>
+    suspend fun getSongFromNetwork(song: String): LiveData<SearchResponse>
 }
