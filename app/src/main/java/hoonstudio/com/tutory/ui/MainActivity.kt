@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory
+package hoonstudio.com.tutory.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
+import hoonstudio.com.tutory.R
 
 
 class MainActivity : AppCompatActivity() {
