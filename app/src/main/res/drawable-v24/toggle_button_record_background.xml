@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:state_checked="true"
+            android:drawable="@drawable/ic_pause_circle_filled"
+    >
+        <shape
+                android:shape="ring">
+
+            <solid android:color="@color/colorGray"/>
+            <size
+
+                    android:width="48dp"
+                    android:height="48dp"/>
+            <stroke
+                    android:width="2dp"
+                    android:color="@color/colorGray"/>
+        </shape>
+    </item>
+
+    <item
+            android:state_checked="false"
+            android:drawable="@drawable/ic_fiber_manual_record">
+
+        <shape
+                android:shape="ring">
+            <size
+                    android:width="48dp"
+                    android:height="48dp"/>
+            <solid android:color="@color/colorGray"/>
+            <stroke
+                    android:width="2dp"
+                    android:color="@color/colorPrimary"/>
+        </shape>
+    </item>
+</selector>

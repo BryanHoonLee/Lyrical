@@ -10,8 +10,15 @@ import com.squareup.picasso.Picasso
 import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.network.response.Hit
 
-class SearchAdapter: RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
+class SearchAdapter(
+    onSearchItemClickListener: OnSearchItemClickListener
+): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
     private var songList = emptyList<Hit>()
+    private var onSearchItemClickListener: OnSearchItemClickListener
+
+    init{
+        this.onSearchItemClickListener = onSearchItemClickListener
+    }
 
     fun setSongList(songList: List<Hit>){
         this.songList = songList
@@ -22,7 +29,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
         var itemView: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_song, parent, false)
 
-        return SearchViewHolder(itemView)
+        return SearchViewHolder(itemView, onSearchItemClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -42,20 +49,32 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.SearchViewHolder>(){
 
     }
 
-    class SearchViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class SearchViewHolder(itemView: View, onSearchItemClickListener: OnSearchItemClickListener):
+        RecyclerView.ViewHolder(itemView), View.OnClickListener{
         lateinit var textViewTitle: TextView
         lateinit var textViewArtist: TextView
         lateinit var imageViewSongArt: ImageView
 
+        var onSearchItemClickListener: OnSearchItemClickListener
+
         init {
             initView()
+            itemView.setOnClickListener(this)
+            this.onSearchItemClickListener = onSearchItemClickListener
         }
 
+        override fun onClick(v: View?) {
+            onSearchItemClickListener.onSearchItemClick(adapterPosition)
+        }
         fun initView(){
             textViewTitle = itemView.findViewById(R.id.text_view_title)
             textViewArtist = itemView.findViewById(R.id.text_view_artist)
             imageViewSongArt = itemView.findViewById(R.id.image_view_song_art)
 
         }
+    }
+
+    interface OnSearchItemClickListener{
+        fun onSearchItemClick(position: Int)
     }
 }

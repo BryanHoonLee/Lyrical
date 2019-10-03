@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,16 +12,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hoonstudio.com.tutory.R
+import hoonstudio.com.tutory.data.network.response.Hit
+import hoonstudio.com.tutory.data.network.response.SearchResponse
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
 import hoonstudio.com.tutory.ui.adapter.SearchAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
     private lateinit var songViewModel: SongViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SearchAdapter
+    private lateinit var songList: List<Hit>
 
     // Creates the view hierarchy controlled by the fragment
     // Activities use setContentView() to specify the XML file that defines their layouts, but
@@ -42,6 +46,7 @@ class SearchFragment : Fragment() {
                 lifecycleScope.launchWhenCreated {
                     songViewModel.getSong(query ?: "Dancing Mellow Fellow").observe(this@SearchFragment, Observer {
                         adapter.setSongList(it.response.hits)
+                        songList = it.response.hits
                     })
                 }
 
@@ -54,17 +59,30 @@ class SearchFragment : Fragment() {
             }
         })
         songViewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
+    }
 
-//        val apiService = GeniusApiService(ConnectivityInterceptorImpl(this.context!!))
-//        val songNetworkDataSource = SongNetworkDataSourceImpl(apiService)
-//        songNetworkDataSource.song.observe(this, Observer {
-//            webView.loadUrl(it.response.hits[0].result.url)
-//        })
-//        GlobalScope.launch(Dispatchers.Main) {
-//            songNetworkDataSource.fetchSong(query?:"Dancing Mellow Fellow")
-//        }
+    override fun onSearchItemClick(position: Int) {
+        val fragment = LyricRecordFragment.newInstance()
+        var args = Bundle()
+        var current = songList.get(position)
+        var songArtUrl = current.result.songArtImageUrl
+        var songTitle = current.result.title
+        var songArtist = current.result.primaryArtist.name
+        var lyricUrl = current.result.url
+        args.putString("title", songTitle)
+        args.putString("artist", songArtist)
+        args.putString("songArtUrl", songArtUrl)
+        args.putString("lyricUrl", lyricUrl)
+        fragment.arguments = args
+        startFragment(fragment)
+    }
 
-
+    private fun startFragment(fragment: Fragment) {
+        fragmentManager!!
+            .beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun initRecyclerView(view: View){
@@ -72,7 +90,7 @@ class SearchFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.setHasFixedSize(true)
 
-        adapter = SearchAdapter()
+        adapter = SearchAdapter(this)
         recyclerView.adapter = adapter
     }
 

@@ -20,8 +20,6 @@ class SongViewModel(
 ) : AndroidViewModel(application) {
     private var songRepositoryImpl: SongRepositoryImpl
 
-
-
     init {
         songRepositoryImpl = SongRepositoryImpl(application)
     }
