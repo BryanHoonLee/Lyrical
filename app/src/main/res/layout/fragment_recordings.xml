@@ -4,8 +4,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-            android:text="profile "
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/textView3"/>
+    <ImageButton android:layout_width="100dp" android:layout_height="100dp"
+    android:id="@+id/play_recording"/>
 </LinearLayout>

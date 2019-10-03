@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.profile -> {
-                val profileFragment = ProfileFragment.newInstance()
-                startFragment(profileFragment)
+                val recordingsFragment = RecordingsFragment.newInstance()
+                startFragment(recordingsFragment)
                 return@OnNavigationItemSelectedListener true
             }
         }
