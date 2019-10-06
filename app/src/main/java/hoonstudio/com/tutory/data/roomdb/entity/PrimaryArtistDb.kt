@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 
 data class PrimaryArtistDb(
+    @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name="api_path")
     val apiPath: String,

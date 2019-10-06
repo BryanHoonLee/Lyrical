@@ -4,12 +4,22 @@ package hoonstudio.com.tutory.data.roomdb.entity
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import hoonstudio.com.tutory.data.network.response.PrimaryArtist
 
-@Entity(tableName = "result_table")
-data class ResultDb(
-    val id: Int,
+@Entity(tableName = "song_table")
+data class Song(
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
+    val id: Long,
+    @ColumnInfo(name ="primary_artist") @Embedded(prefix = "primary_artist_")
+    val primaryArtist: PrimaryArtist,
+    @ColumnInfo(name ="title")
+    val title: String,
+    @ColumnInfo(name ="url")
+    val url: String,
+    @ColumnInfo(name = "recording_file_path")
+    val recordingFilePath: String,
     @ColumnInfo(name ="annotation_count")
     val annotationCount: Int,
     @ColumnInfo(name ="api_path")
@@ -22,17 +32,10 @@ data class ResultDb(
     val headerImageUrl: String,
     @ColumnInfo(name ="lyrics_owner_id")
     val lyricsOwnerId: Int,
-    @Embedded(prefix = "primary_artist_")
-    @ColumnInfo(name ="primary_artist")
-    val primaryArtist: PrimaryArtist,
     @ColumnInfo(name ="song_art_image_thumbnail_url")
     val songArtImageThumbnailUrl: String,
     @ColumnInfo(name ="song_art_image_url")
     val songArtImageUrl: String,
-    @ColumnInfo(name ="title")
-    val title: String,
     @ColumnInfo(name ="title_with_featured")
-    val titleWithFeatured: String,
-    @ColumnInfo(name ="url")
-    val url: String
+    val titleWithFeatured: String
 )
