@@ -14,6 +14,6 @@ interface SongDao{
     suspend fun insert(result: Song)
 
     @Query("SELECT * FROM song_table")
-    fun getAllSong(): LiveData<List<Song>>
+    suspend fun getAllSong(): List<Song>
 
 }

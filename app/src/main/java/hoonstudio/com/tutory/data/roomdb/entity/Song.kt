@@ -12,7 +12,7 @@ import hoonstudio.com.tutory.data.network.response.PrimaryArtist
 data class Song(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
     val id: Long,
-    @ColumnInfo(name ="primary_artist") @Embedded(prefix = "primary_artist_")
+    @Embedded(prefix = "primary_artist_")
     val primaryArtist: PrimaryArtist,
     @ColumnInfo(name ="title")
     val title: String,

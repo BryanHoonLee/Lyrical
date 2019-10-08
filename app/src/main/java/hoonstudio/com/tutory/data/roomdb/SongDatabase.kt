@@ -5,11 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import hoonstudio.com.tutory.data.roomdb.entity.PrimaryArtistDb
+import hoonstudio.com.tutory.data.roomdb.entity.Song
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(), version = 1)
+@Database(entities = arrayOf(Song::class, PrimaryArtistDb::class), version = 1)
 abstract class SongDatabase: RoomDatabase(){
 
     companion object{

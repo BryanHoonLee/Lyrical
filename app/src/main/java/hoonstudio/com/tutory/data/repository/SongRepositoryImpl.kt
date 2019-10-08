@@ -9,22 +9,28 @@ import hoonstudio.com.tutory.data.roomdb.SongDao
 import hoonstudio.com.tutory.data.roomdb.SongDatabase
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 
+//Whenever the Repository has to do expensive things like transform a list it should use withContext to expose a main-safe interface.
 class SongRepositoryImpl : SongRepository {
     private val songNetworkDataSource: SongNetworkDataSource
     private val songDao: SongDao
-    private var allSongs: LiveData<List<Song>>
 
-    constructor(application: Application){
+    constructor(application: Application) {
         val database = SongDatabase.getInstance(application)!!
         songDao = database.songDao()
-        allSongs = songDao.getAllSong()
         songNetworkDataSource = SongNetworkDataSourceImpl(application)
     }
 
+    suspend fun insertSong(song: Song) {
+        songDao.insert(song)
+    }
 
-    override suspend fun getSongFromNetwork(song: String): LiveData<SearchResponse> {
+    suspend fun getAllSongFromDb(): List<Song> {
+        return songDao.getAllSong()
+    }
+
+
+    override suspend fun getSongFromNetwork(song: String): SearchResponse {
         return songNetworkDataSource.fetchSong(song)
-
     }
 
 

@@ -40,16 +40,16 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        songViewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
+        
+        songViewModel.songQuery.observe(this@SearchFragment, Observer {
+            adapter.setSongList(it.response.hits)
+            songList = it.response.hits
+        })
 
         searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                lifecycleScope.launchWhenCreated {
-                    songViewModel.getSong(query ?: "Dancing Mellow Fellow").observe(this@SearchFragment, Observer {
-                        adapter.setSongList(it.response.hits)
-                        songList = it.response.hits
-                    })
-                }
-
+                songViewModel.getSong(query ?: "")
 
                 return false
             }
@@ -58,7 +58,6 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
                 return false
             }
         })
-        songViewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
     }
 
     override fun onSearchItemClick(position: Int) {
@@ -85,7 +84,7 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
             .commit()
     }
 
-    private fun initRecyclerView(view: View){
+    private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.setHasFixedSize(true)

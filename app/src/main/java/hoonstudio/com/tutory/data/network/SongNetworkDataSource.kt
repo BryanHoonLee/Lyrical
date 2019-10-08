@@ -8,5 +8,5 @@ interface SongNetworkDataSource {
 
     suspend fun fetchSong(
         songName: String
-    ) : LiveData<SearchResponse>
+    ) : SearchResponse
 }

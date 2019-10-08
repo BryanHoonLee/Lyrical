@@ -21,18 +21,18 @@ class SongNetworkDataSourceImpl(
     }
 
 
-    override suspend fun fetchSong(songName: String): LiveData<SearchResponse> {
+    override suspend fun fetchSong(songName: String): SearchResponse {
         try{
             val fetchedSong = geniusApiService
                 .getSong(songName)
                 .await()
 
-            _song.postValue(fetchedSong)
+            _song.value = fetchedSong
 
         }
         catch (e: NoConnectivityException){
             Log.e("Connectivity", "No internet connection")
         }
-        return song
+        return song.value!!
     }
 }
