@@ -13,7 +13,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import hoonstudio.com.tutory.R
+import hoonstudio.com.tutory.data.network.response.Hit
+import hoonstudio.com.tutory.data.viewmodel.SharedHitViewModel
 import kotlinx.android.synthetic.main.fragment_lyric_recording.*
 import kotlinx.android.synthetic.main.snippet_recorder.*
 import java.io.File
@@ -24,10 +27,8 @@ private const val LOG_TAG = "AudioRecordTest"
 private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class LyricRecordFragment : Fragment() {
-    private lateinit var songTitle: String
-    private lateinit var songArtist: String
-    private lateinit var songArtUrl: String
-    private lateinit var lyricUrl: String
+    private lateinit var sharedHitViewModel: SharedHitViewModel
+
     private lateinit var toast: Toast
 
     private var recorder: MediaRecorder? = null
@@ -41,12 +42,6 @@ class LyricRecordFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_lyric_recording, container, false)
 
-        songTitle = arguments!!.getString("title")
-        songArtist = arguments!!.getString("artist")
-        songArtUrl = arguments!!.getString("songArtUrl")
-        lyricUrl = arguments!!.getString("lyricUrl")
-
-
         return view
     }
 
@@ -55,7 +50,13 @@ class LyricRecordFragment : Fragment() {
 
        // filePath = "${Environment.getExternalStorageDirectory()}/audiorecordtest.3gp"
 
-        loadWebView(lyricUrl)
+        sharedHitViewModel = activity?.let{
+            ViewModelProviders.of(it).get(SharedHitViewModel::class.java)
+        } ?: throw Exception("Invalid Class")
+
+        sharedHitViewModel.sharedHit.observe(this, androidx.lifecycle.Observer {
+            loadWebView(it.result.url)
+        })
 
         button_record.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -146,9 +147,12 @@ class LyricRecordFragment : Fragment() {
 
     fun loadWebView(url: String) {
         if (url != null) {
+            showToast(url)
             webView.loadUrl(url)
             // Starts scrollbar in webview down in order to start screen at lyrics.
             webView.scrollY = 1000
+        }else{
+            showToast("URL Not Loaded")
         }
     }
 
