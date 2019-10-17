@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import hoonstudio.com.tutory.data.network.response.Hit
 
 class SharedHitViewModel: ViewModel(){
-    val _sharedHit = MutableLiveData<Hit>()
+    private val _sharedHit = MutableLiveData<Hit>()
     val sharedHit: LiveData<Hit> = _sharedHit
 
     fun setSharedSong(hit: Hit){

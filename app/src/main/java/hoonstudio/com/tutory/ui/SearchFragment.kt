@@ -61,19 +61,9 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
     }
 
     override fun onSearchItemClick(position: Int) {
-        val fragment = LyricRecordFragment.newInstance()
-//        var args = Bundle()
-//        var current = songList.get(position)
-//        var songArtUrl = current.result.songArtImageUrl
-//        var songTitle = current.result.title
-//        var songArtist = current.result.primaryArtist.name
-//        var lyricUrl = current.result.url
-//        args.putString("title", songTitle)
-//        args.putString("artist", songArtist)
-//        args.putString("songArtUrl", songArtUrl)
-//        args.putString("lyricUrl", lyricUrl)
-//        fragment.arguments = args
         sharedSongViewModel.setSharedSong(songList.get(position))
+
+        val fragment = LyricRecordFragment.newInstance()
         startFragment(fragment)
     }
 

@@ -28,6 +28,7 @@ private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class LyricRecordFragment : Fragment() {
     private lateinit var sharedHitViewModel: SharedHitViewModel
+    private lateinit var currentHit: Hit
 
     private lateinit var toast: Toast
 
@@ -55,12 +56,14 @@ class LyricRecordFragment : Fragment() {
         } ?: throw Exception("Invalid Class")
 
         sharedHitViewModel.sharedHit.observe(this, androidx.lifecycle.Observer {
+            currentHit = it
             loadWebView(it.result.url)
         })
 
         button_record.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 // Start recording
+                button_save_recording.visibility = View.VISIBLE
 
                 // Brings up dialog, asking user for record permissions if not granted already
                 ActivityCompat.requestPermissions(activity!!, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
@@ -71,6 +74,7 @@ class LyricRecordFragment : Fragment() {
                 ) {
                     // If permission is not granted
                     buttonView.toggle()
+                    button_save_recording.visibility = View.GONE
                 } else {
                     // If permission is granted
                     button_save_recording.visibility = View.VISIBLE
@@ -90,6 +94,7 @@ class LyricRecordFragment : Fragment() {
 
         button_save_recording.setOnClickListener(View.OnClickListener {
             stopRecording()
+            showToast("Recording Saved")
         })
     }
 
@@ -117,6 +122,7 @@ class LyricRecordFragment : Fragment() {
 
     private fun resumeRecording() {
         recorder?.resume()
+        recorder?.
     }
 
     private fun pauseRecording() {
@@ -130,6 +136,8 @@ class LyricRecordFragment : Fragment() {
         }
         recorder = null
     }
+
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
