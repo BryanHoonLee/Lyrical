@@ -99,13 +99,14 @@ p.lead {
 .btn {
     font-size: 12px;
     font-weight: 400;
+    color: #455052;
     text-transform: uppercase;
     padding: 0.375rem 1.35rem;
     transition: all 0.3s ease;
 }
 
 .btn-outline-light:hover {
-    color: #d6619c;
+    color: #455052;
 }
 
 .btn-primary {
@@ -197,19 +198,24 @@ p.lead {
     padding: 0;
 }
 
+.navbar-nav>.nav-item>.nav-link.active {
+    color: #455052;
+}
 .navbar-nav .nav-link {
     position: relative;
 }
+
 
 @media (min-width: 992px) {
     .navbar-expand-lg .navbar-nav .nav-link {
         padding-right: 1rem;
         padding-left: 1rem;
+        color: #455052;
         font-size: 14px;
     }
     .navbar-nav>.nav-item>.nav-link.active:after {
         content: "";
-        border-bottom: 2px solid #cd99d4;
+        border-bottom: 2px solid #455052;
         left: 1rem;
         right: 1rem;
         bottom: 5px;
@@ -234,7 +240,7 @@ p.lead {
 header {
     padding: 100px 0 0;
     text-align: center;
-    color: #FFF;
+    color: #455052;
 }
 
 .bg-gradient {
@@ -243,11 +249,12 @@ header {
   background-image: url("images/bg.jpg");
 }
 
+
 .tagline {
-    font-size: 23px;
+    font-size: 33px;
     font-weight: 300;
     font-weight: bold; 
-    color: #455052;
+    color: #fff;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -425,7 +432,7 @@ header {
     padding: 1rem 1rem;
     border-color: #faf6fb #faf6fb #FFF;
     font-size: 19px;
-    color: #b5a4c8;
+    color: #455052;
     background: #f5eff7;
 }
 
