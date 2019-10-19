@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -49,9 +50,9 @@ class LyricRecordFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-       // filePath = "${Environment.getExternalStorageDirectory()}/audiorecordtest.3gp"
+        // filePath = "${Environment.getExternalStorageDirectory()}/audiorecordtest.3gp"
 
-        sharedHitViewModel = activity?.let{
+        sharedHitViewModel = activity?.let {
             ViewModelProviders.of(it).get(SharedHitViewModel::class.java)
         } ?: throw Exception("Invalid Class")
 
@@ -87,22 +88,40 @@ class LyricRecordFragment : Fragment() {
                 }
             } else if (!isChecked) {
                 // Recording gets paused.
-                pauseRecording()
-                showToast("Recording Paused")
+                if(recorder != null){
+                    pauseRecording()
+                    showToast("Recording Paused")
+                }
             }
         }
 
         button_save_recording.setOnClickListener(View.OnClickListener {
             stopRecording()
+            if (button_record.isChecked) {
+                button_record.toggle()
+            }
             showToast("Recording Saved")
         })
     }
 
+    private fun initAlertBulder() {
+        val builder = AlertDialog.Builder(this.context!!)
+        builder.apply {
+            setCancelable(false)
+            setTitle("Discard Recording")
+            setMessage("Are you sure you want to delete recording?")
+            setPositiveButton("Delete") { _, _ ->
+                // delete from external storage
+            }
+        }
+    }
+
     private fun startRecording() {
         // apply lets you use all the functions without typing out the source variable each time.
-        var audioName = Calendar.getInstance().time.toString().replace(" ", "").replace(":", "")
+        var audioName =
+            "${currentHit.result.title}${Calendar.getInstance().time.toString().replace(" ", "").replace(":", "")}"
         var test = "test"
-        filePath = "${Environment.getExternalStorageDirectory().absoluteFile}${File.separator}$test.3gp"
+        filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$test.3gp"
         recorder = MediaRecorder().apply {
             reset()
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -122,7 +141,7 @@ class LyricRecordFragment : Fragment() {
 
     private fun resumeRecording() {
         recorder?.resume()
-        recorder?.
+
     }
 
     private fun pauseRecording() {
@@ -136,7 +155,6 @@ class LyricRecordFragment : Fragment() {
         }
         recorder = null
     }
-
 
 
     override fun onRequestPermissionsResult(
@@ -155,11 +173,10 @@ class LyricRecordFragment : Fragment() {
 
     fun loadWebView(url: String) {
         if (url != null) {
-            showToast(url)
             webView.loadUrl(url)
             // Starts scrollbar in webview down in order to start screen at lyrics.
-            webView.scrollY = 1000
-        }else{
+//            webView.scrollY = 1000
+        } else {
             showToast("URL Not Loaded")
         }
     }

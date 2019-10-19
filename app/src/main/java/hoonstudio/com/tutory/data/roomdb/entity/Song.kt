@@ -20,8 +20,6 @@ data class Song(
     val url: String,
     @ColumnInfo(name = "recording_file_path")
     val recordingFilePath: String,
-    @ColumnInfo(name ="annotation_count")
-    val annotationCount: Int,
     @ColumnInfo(name ="api_path")
     val apiPath: String,
     @ColumnInfo(name ="full_title")

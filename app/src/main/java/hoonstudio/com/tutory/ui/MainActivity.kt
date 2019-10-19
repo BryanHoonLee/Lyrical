@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.DialogInterface
+import android.os.Environment
 import androidx.appcompat.app.AlertDialog
 import hoonstudio.com.tutory.R
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -51,12 +53,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initDirectory()
 
         val bottomNavigation = bottomNavigation
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         val homeFragment = HomeFragment.newInstance()
         initFragment(homeFragment)
+    }
+
+    private fun initDirectory(){
+        val folder = File("${Environment.getExternalStorageDirectory()}${File.separator}Lyrical")
+        if(!folder.exists()){
+            folder.mkdir()
+        }
     }
 
     override fun onBackPressed() {

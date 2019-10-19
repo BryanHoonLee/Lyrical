@@ -6,10 +6,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity
+
 data class PrimaryArtistDb(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
-    val id: Long,
+//    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
+//    val id: Long,
     @ColumnInfo(name="api_path")
     val apiPath: String,
     @ColumnInfo(name="header_image_url")

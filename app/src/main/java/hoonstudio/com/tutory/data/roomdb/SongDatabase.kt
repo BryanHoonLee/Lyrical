@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Song::class, PrimaryArtistDb::class), version = 1)
+@Database(entities = arrayOf(Song::class), version = 2)
 abstract class SongDatabase: RoomDatabase(){
 
     companion object{

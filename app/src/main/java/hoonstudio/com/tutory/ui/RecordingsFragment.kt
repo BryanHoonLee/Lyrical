@@ -33,7 +33,7 @@ class RecordingsFragment: Fragment(){
 
     private fun startPlaying(){
         var test = "test"
-        var filePath = "${Environment.getExternalStorageDirectory().absoluteFile}${File.separator}$test.3gp"
+        var filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$test.3gp"
         player = MediaPlayer().apply {
             try{
                 setDataSource(filePath)
