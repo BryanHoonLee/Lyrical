@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.network.response.Hit
+import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SharedHitViewModel
+import hoonstudio.com.tutory.data.viewmodel.SongViewModel
 import kotlinx.android.synthetic.main.fragment_lyric_recording.*
 import kotlinx.android.synthetic.main.snippet_recorder.*
 import java.io.File
@@ -29,6 +31,8 @@ private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
 class LyricRecordFragment : Fragment() {
     private lateinit var sharedHitViewModel: SharedHitViewModel
+    private lateinit var songViewModel: SongViewModel
+
     private lateinit var currentHit: Hit
 
     private lateinit var toast: Toast
@@ -53,6 +57,8 @@ class LyricRecordFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // filePath = "${Environment.getExternalStorageDirectory()}/audiorecordtest.3gp"
+
+        songViewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
 
         sharedHitViewModel = activity?.let {
             ViewModelProviders.of(it).get(SharedHitViewModel::class.java)
@@ -99,6 +105,7 @@ class LyricRecordFragment : Fragment() {
 
         button_save_recording.setOnClickListener(View.OnClickListener {
             stopRecording()
+            saveToDb()
             if (button_record.isChecked) {
                 button_record.toggle()
             }
@@ -106,6 +113,7 @@ class LyricRecordFragment : Fragment() {
         })
     }
 
+    // Prompts user if they want to discard recording
     fun initAlertBulder() {
         val builder = AlertDialog.Builder(this.context!!)
         builder.apply {
@@ -131,13 +139,13 @@ class LyricRecordFragment : Fragment() {
         dialog.show()
     }
 
+    // Creates & prepares media recorder and starts recording
     private fun startRecording() {
         recording = true
-        // apply lets you use all the functions without typing out the source variable each time.
-        var audioName =
-            "${currentHit.result.title}${Calendar.getInstance().time.toString().replace(" ", "").replace(":", "")}"
-        var test = "test"
+        var audioName = createAudioName()
         filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$audioName.3gp"
+
+        // apply lets you use all the functions without typing out the source variable each time.
         recorder = MediaRecorder().apply {
             reset()
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -153,6 +161,37 @@ class LyricRecordFragment : Fragment() {
             }
             start()
         }
+    }
+
+    private fun saveToDb(){
+        var song = prepareSongForDb()
+        songViewModel.insertSong(song)
+    }
+
+    private fun prepareSongForDb(): Song{
+        var currentSong = currentHit.result
+        var song: Song
+        currentSong.apply {
+            song = Song(
+                0,
+                primaryArtist,
+                title,
+                url,
+                filePath,
+                apiPath,
+                fullTitle,
+                headerImageThumbnailUrl,
+                headerImageUrl,
+                lyricsOwnerId,
+                songArtImageThumbnailUrl,
+                songArtImageUrl,
+                titleWithFeatured)
+        }
+        return song
+    }
+
+    private fun createAudioName(): String{
+        return "${currentHit.result.title}${Calendar.getInstance().time.toString().replace(" ", "").replace(":", "")}"
     }
 
     private fun resumeRecording() {
