@@ -41,6 +41,8 @@ class LyricRecordFragment : Fragment() {
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
 
+    var recording: Boolean = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_lyric_recording, container, false)
 
@@ -104,24 +106,38 @@ class LyricRecordFragment : Fragment() {
         })
     }
 
-    private fun initAlertBulder() {
+    fun initAlertBulder() {
         val builder = AlertDialog.Builder(this.context!!)
         builder.apply {
             setCancelable(false)
             setTitle("Discard Recording")
-            setMessage("Are you sure you want to delete recording?")
-            setPositiveButton("Delete") { _, _ ->
-                // delete from external storage
+            setMessage("Are you sure you want to discard recording?")
+            setPositiveButton("Discard") { _, _ ->
+                button_save_recording.visibility = View.GONE
+                if (button_record.isChecked) {
+                    button_record.toggle()
+                }
+                stopRecording()
+                val file = File(filePath)
+                file.delete()
+                showToast("Discarded")
+
+            }
+            setNeutralButton("Cancel") { _, _ ->
+
             }
         }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
     private fun startRecording() {
+        recording = true
         // apply lets you use all the functions without typing out the source variable each time.
         var audioName =
             "${currentHit.result.title}${Calendar.getInstance().time.toString().replace(" ", "").replace(":", "")}"
         var test = "test"
-        filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$test.3gp"
+        filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$audioName.3gp"
         recorder = MediaRecorder().apply {
             reset()
             setAudioSource(MediaRecorder.AudioSource.MIC)
@@ -149,6 +165,7 @@ class LyricRecordFragment : Fragment() {
     }
 
     private fun stopRecording() {
+        recording = false
         recorder?.apply {
             stop()
             release()

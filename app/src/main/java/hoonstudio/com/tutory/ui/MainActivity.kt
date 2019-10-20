@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun initFragment(fragment: Fragment){
+    private fun initFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, fragment)
@@ -62,16 +62,24 @@ class MainActivity : AppCompatActivity() {
         initFragment(homeFragment)
     }
 
-    private fun initDirectory(){
+    private fun initDirectory() {
         val folder = File("${Environment.getExternalStorageDirectory()}${File.separator}Lyrical")
-        if(!folder.exists()){
+        if (!folder.exists()) {
             folder.mkdir()
         }
     }
 
     override fun onBackPressed() {
         var backStackEntryCount = supportFragmentManager.backStackEntryCount
-        if (backStackEntryCount == 0) {
+        var fragment = supportFragmentManager.fragments.last()
+
+        if (fragment is LyricRecordFragment) {
+            if (fragment.recording) {
+                fragment.initAlertBulder()
+            } else {
+                super@MainActivity.onBackPressed()
+            }
+        } else if (backStackEntryCount == 0) {
             AlertDialog.Builder(this)
                 .setMessage("Are you sure you want to exit?")
                 .setPositiveButton("Yes",
