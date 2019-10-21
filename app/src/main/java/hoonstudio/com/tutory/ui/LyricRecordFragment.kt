@@ -40,6 +40,7 @@ class LyricRecordFragment : Fragment() {
     private var recorder: MediaRecorder? = null
 
     private var filePath: String = ""
+    private var audioName: String = ""
 
     // Requesting permission to RECORD_AUDIO
     private var permissionToRecordAccepted = false
@@ -55,9 +56,6 @@ class LyricRecordFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        // filePath = "${Environment.getExternalStorageDirectory()}/audiorecordtest.3gp"
-
         songViewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
 
         sharedHitViewModel = activity?.let {
@@ -104,6 +102,7 @@ class LyricRecordFragment : Fragment() {
         }
 
         button_save_recording.setOnClickListener(View.OnClickListener {
+            button_save_recording.visibility = View.GONE
             stopRecording()
             saveToDb()
             if (button_record.isChecked) {
@@ -142,7 +141,7 @@ class LyricRecordFragment : Fragment() {
     // Creates & prepares media recorder and starts recording
     private fun startRecording() {
         recording = true
-        var audioName = createAudioName()
+        audioName = createAudioName()
         filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$audioName.3gp"
 
         // apply lets you use all the functions without typing out the source variable each time.
@@ -177,6 +176,7 @@ class LyricRecordFragment : Fragment() {
                 primaryArtist,
                 title,
                 url,
+                audioName,
                 filePath,
                 apiPath,
                 fullTitle,

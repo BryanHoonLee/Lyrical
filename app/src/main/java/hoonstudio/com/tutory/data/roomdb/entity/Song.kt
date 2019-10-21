@@ -18,8 +18,10 @@ data class Song(
     val title: String,
     @ColumnInfo(name ="url")
     val url: String,
-    @ColumnInfo(name = "recording_file_path")
-    val recordingFilePath: String,
+    @ColumnInfo(name = "audio_name")
+    val audioName:String,
+    @ColumnInfo(name = "file_path")
+    val filePath: String,
     @ColumnInfo(name ="api_path")
     val apiPath: String,
     @ColumnInfo(name ="full_title")
