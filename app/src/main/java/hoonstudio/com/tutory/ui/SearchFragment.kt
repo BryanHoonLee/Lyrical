@@ -11,17 +11,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.network.response.Hit
+import hoonstudio.com.tutory.data.network.response.Result
+import hoonstudio.com.tutory.data.roomdb.entity.Search
+import hoonstudio.com.tutory.data.viewmodel.SearchHistoryViewModel
 import hoonstudio.com.tutory.data.viewmodel.SharedHitViewModel
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
 import hoonstudio.com.tutory.ui.adapter.SearchAdapter
+import hoonstudio.com.tutory.ui.adapter.SearchHistoryAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
 
-class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
+class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
+    SearchHistoryAdapter.OnSearchHistoryItemClickListener {
     private lateinit var songViewModel: SongViewModel
+    private lateinit var searchViewModel: SearchHistoryViewModel
     private lateinit var sharedSongViewModel: SharedHitViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SearchAdapter
+    private lateinit var searchHistoryAdapter: SearchHistoryAdapter
     private lateinit var songList: List<Hit>
+    private lateinit var searchHistoryList: List<Search>
 
     // Creates the view hierarchy controlled by the fragment
     // Activities use setContentView() to specify the XML file that defines their layouts, but
@@ -38,9 +46,18 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
         super.onActivityCreated(savedInstanceState)
 
         songViewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
+        searchViewModel = ViewModelProviders.of(this).get(SearchHistoryViewModel::class.java)
+
         sharedSongViewModel = activity?.run {
             ViewModelProviders.of(this).get(SharedHitViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
+
+        searchViewModel.searchHistoryList.observe(this, Observer {
+            searchHistoryAdapter.setSearchHistoryList(it)
+            searchHistoryList = it
+
+        })
+        searchViewModel.getSearchHistoryFromDb()
 
         songViewModel.songQuery.observe(this, Observer {
             adapter.setSongList(it.response.hits)
@@ -49,8 +66,11 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
 
         searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+      //          if (!(recyclerView.adapter is SearchAdapter)) {
+                    recyclerView.adapter = adapter
+              //  }
                 songViewModel.getSong(query ?: "")
-
+                searchLabel.text = "Search Results"
                 return false
             }
 
@@ -62,7 +82,58 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
 
     override fun onSearchItemClick(position: Int) {
         sharedSongViewModel.setSharedSong(songList.get(position))
+        var timeStamp = System.currentTimeMillis()
+        songList.get(position).result.apply {
+            var search = Search(
+                annotationCount,
+                apiPath,
+                fullTitle,
+                headerImageThumbnailUrl,
+                headerImageUrl,
+                id,
+                timeStamp,
+                lyricsOwnerId,
+                lyricsState,
+                path,
+                primaryArtist,
+                songArtImageThumbnailUrl,
+                songArtImageUrl,
+                title,
+                titleWithFeatured,
+                url
+            )
 
+            searchViewModel.insertSearch(search)
+        }
+
+
+        val fragment = LyricRecordFragment.newInstance()
+        startFragment(fragment)
+    }
+
+    override fun onSearchHistoryItemClickListener(position: Int) {
+        searchHistoryList.get(position).apply {
+            var hit: Hit
+            var result = Result(
+                annotationCount,
+                apiPath,
+                fullTitle,
+                headerImageThumbnailUrl,
+                headerImageUrl,
+                id,
+                lyricsOwnerId,
+                lyricsState,
+                path,
+                primaryArtist,
+                songArtImageThumbnailUrl,
+                songArtImageUrl,
+                title,
+                titleWithFeatured,
+                url
+            )
+            hit = Hit(result)
+            sharedSongViewModel.setSharedSong(hit)
+        }
         val fragment = LyricRecordFragment.newInstance()
         startFragment(fragment)
     }
@@ -81,7 +152,11 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener {
         recyclerView.setHasFixedSize(true)
 
         adapter = SearchAdapter(this)
-        recyclerView.adapter = adapter
+        searchHistoryAdapter = SearchHistoryAdapter(this)
+
+        recyclerView.adapter = searchHistoryAdapter
+
+
     }
 
     companion object {
