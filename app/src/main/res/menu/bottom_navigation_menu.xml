@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/home"
-          android:icon="@drawable/ic_launcher_foreground"
+    <item android:id="@+id/favorite"
+          android:icon="@drawable/ic_star"
           android:title="@string/bottom_navigation_menu_home"
           app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/search"
-          android:icon="@drawable/ic_launcher_foreground"
+          android:icon="@drawable/ic_search"
           android:title="@string/bottom_navigation_menu_search"
           app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/profile"
-          android:icon="@drawable/ic_launcher_foreground"
-          android:title="@string/bottom_navigation_menu_profile"
+    <item android:id="@+id/recordings"
+          android:icon="@drawable/ic_library_music"
+          android:title="@string/bottom_navigation_menu_recordings"
           app:showAsAction="ifRoom"/>
 
 </menu>

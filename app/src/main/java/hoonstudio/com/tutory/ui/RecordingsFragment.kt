@@ -22,6 +22,7 @@ import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
 import hoonstudio.com.tutory.ui.adapter.RecordingsAdapter
+import kotlinx.android.synthetic.main.item_recording.*
 import java.io.IOException
 import java.util.*
 

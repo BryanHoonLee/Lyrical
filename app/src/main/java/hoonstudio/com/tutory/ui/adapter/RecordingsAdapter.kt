@@ -13,9 +13,12 @@ import kotlinx.android.synthetic.main.item_song.view.image_view_song_art
 import kotlinx.android.synthetic.main.item_song.view.text_view_artist
 import kotlinx.android.synthetic.main.item_song.view.text_view_title
 
-class RecordingsAdapter(onRecordingsItemClickListener: OnRecordingsItemClickListener) : RecyclerView.Adapter<RecordingsAdapter.RecordingsViewHolder>() {
+class RecordingsAdapter(onRecordingsItemClickListener: OnRecordingsItemClickListener) :
+    RecyclerView.Adapter<RecordingsAdapter.RecordingsViewHolder>() {
     private var recordingsList = emptyList<Song>()
     private var onRecordingsItemClickListener: OnRecordingsItemClickListener
+
+    private var expandedPosition = RecyclerView.NO_POSITION
 
     init {
         this.onRecordingsItemClickListener = onRecordingsItemClickListener
@@ -49,7 +52,7 @@ class RecordingsAdapter(onRecordingsItemClickListener: OnRecordingsItemClickList
 
         Picasso.get()
             .load(imageArtUrl)
-           // .resize(350,350)
+            // .resize(350,350)
             .into(holder.imageViewSongArt)
     }
 

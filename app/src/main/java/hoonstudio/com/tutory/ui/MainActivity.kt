@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId) {
-            R.id.home -> {
+            R.id.favorite -> {
                 val homeFragment = HomeFragment.newInstance()
                 startFragment(homeFragment)
                 return@OnNavigationItemSelectedListener true
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                 startFragment(searchFragment)
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.profile -> {
+            R.id.recordings -> {
                 val recordingsFragment = RecordingsFragment.newInstance()
                 startFragment(recordingsFragment)
                 return@OnNavigationItemSelectedListener true
