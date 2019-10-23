@@ -6,4 +6,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGray">#D6D4D4</color>
+
+    <color name="delete_item_color">#F5859F</color>
 </resources>

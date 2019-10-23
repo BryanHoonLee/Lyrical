@@ -33,8 +33,12 @@ class SongRepositoryImpl : SongRepository {
         return songDao.getSearchHistory()
     }
 
-    suspend fun getAllSongFromDb(): List<Song> {
+     fun getAllSongFromDb(): LiveData<List<Song>> {
         return songDao.getAllSong()
+    }
+
+    suspend fun deleteSong(song: Song){
+        songDao.deleteSong(song)
     }
 
 

@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.coroutines.CoroutineContext
 
 class SongViewModel(
@@ -23,8 +24,8 @@ class SongViewModel(
     val songQuery: LiveData<SearchResponse> = _songQuery
 
     // Song Recording List from Db
-    private val _songList = MutableLiveData<List<Song>>()
-    val songList: LiveData<List<Song>> = _songList
+//    private val _songList = MutableLiveData<List<Song>>()
+//    val songList: LiveData<List<Song>> = _songList
 
     init {
         songRepositoryImpl = SongRepositoryImpl(application)
@@ -36,10 +37,8 @@ class SongViewModel(
         }
     }
 
-    fun getAllSongFromDb(){
-        viewModelScope.launch {
-            _songList.value = songRepositoryImpl.getAllSongFromDb()
-        }
+    fun getAllSongFromDb(): LiveData<List<Song>>{
+        return songRepositoryImpl.getAllSongFromDb()
     }
 
     fun getSong(song: String){
@@ -48,4 +47,13 @@ class SongViewModel(
 
         }
     }
+
+    fun deleteSong(song: Song){
+        viewModelScope.launch {
+            val file = File(song.filePath)
+            file.delete()
+            songRepositoryImpl.deleteSong(song)
+        }
+    }
+
 }

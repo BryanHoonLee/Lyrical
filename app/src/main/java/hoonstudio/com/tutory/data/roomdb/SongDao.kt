@@ -1,10 +1,7 @@
 package hoonstudio.com.tutory.data.roomdb
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import hoonstudio.com.tutory.data.roomdb.entity.Search
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 
@@ -21,7 +18,10 @@ interface SongDao{
     suspend fun getSearchHistory(): List<Search>
 
     @Query("SELECT * FROM song_table")
-    suspend fun getAllSong(): List<Song>
+    fun getAllSong(): LiveData<List<Song>>
+
+    @Delete
+    suspend fun deleteSong(song: Song)
 
 
 

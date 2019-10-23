@@ -142,14 +142,16 @@ class LyricRecordFragment : Fragment() {
     private fun startRecording() {
         recording = true
         audioName = createAudioName()
-        filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$audioName.3gp"
+        filePath = "${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Lyrical${File.separator}$audioName.mp4"
 
         // apply lets you use all the functions without typing out the source variable each time.
         recorder = MediaRecorder().apply {
             reset()
             setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            setAudioEncodingBitRate(128000)
+            setAudioSamplingRate(16000)
             setOutputFile(filePath)
 
             try {

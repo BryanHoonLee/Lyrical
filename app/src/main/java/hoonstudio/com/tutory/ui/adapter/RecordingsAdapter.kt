@@ -36,6 +36,10 @@ class RecordingsAdapter(onRecordingsItemClickListener: OnRecordingsItemClickList
         return recordingsList.size
     }
 
+    fun getRecordingAt(position: Int): Song {
+        return recordingsList.get(position)
+    }
+
     override fun onBindViewHolder(holder: RecordingsViewHolder, position: Int) {
         var current = recordingsList.get(position)
         var imageArtUrl = current.songArtImageUrl

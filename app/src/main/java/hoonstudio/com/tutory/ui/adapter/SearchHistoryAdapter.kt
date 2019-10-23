@@ -37,6 +37,7 @@ class SearchHistoryAdapter(
         return searchHistoryList.size
     }
 
+
     override fun onBindViewHolder(holder: SearchHistoryViewHolder, position: Int){
         var current = searchHistoryList.get(position)
         var songArtUrl = current.songArtImageUrl
