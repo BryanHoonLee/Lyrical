@@ -179,6 +179,7 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
         builder.setMessage("Are you sure you want to delete ${adapter.getRecordingAt(viewHolder.adapterPosition).audioName}?")
         builder.setPositiveButton("Delete") { _, _ ->
             songViewModel.deleteSong(recordingsList.get(viewHolder.adapterPosition))
+            releaseMediaPlayer()
           //  songViewModel.getAllSongFromDb()
             adapter.notifyItemRemoved(viewHolder.adapterPosition)
             showToast("Deleted")
