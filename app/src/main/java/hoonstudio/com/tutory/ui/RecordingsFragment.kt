@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.roomdb.entity.Song
+import hoonstudio.com.tutory.data.viewmodel.SharedRecordingViewModel
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
 import hoonstudio.com.tutory.ui.adapter.RecordingsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,17 +30,15 @@ import java.io.IOException
 import java.util.*
 
 
-private const val LOG_TAG = "AudioRecordTest"
-
 class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickListener {
     private lateinit var songViewModel: SongViewModel
-    private var player: MediaPlayer? = null
+    private lateinit var sharedRecordingViewModel: SharedRecordingViewModel
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecordingsAdapter
     private lateinit var recordingsList: List<Song>
 
     private lateinit var toast: Toast
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_recordings, container, false)
@@ -55,53 +54,28 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
         songViewModel = ViewModelProviders.of(this).get(SongViewModel::class.java)
         songViewModel.getAllSongFromDb()
 
+        sharedRecordingViewModel = activity?.run {
+            ViewModelProviders.of(this).get(SharedRecordingViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
         songViewModel.getAllSongFromDb().observe(this, Observer {
             Collections.reverse(it)
             adapter.setRecordingsList(it)
             recordingsList = it
         })
 
-        player?.let {
-            it.setOnCompletionListener {
-                releaseMediaPlayer()
-            }
-        }
+
+
+
     }
 
     override fun onRecordingsItemClick(position: Int) {
-        var filePath = recordingsList.get(position).filePath
-        startPlaying(filePath)
+        sharedRecordingViewModel.setSharedRecording(recordingsList.get(position))
         val fragment = PlayRecordingFragment()
         startFragment(fragment)
     }
 
-    private fun startPlaying(filePath: String) {
-        releaseMediaPlayer()
-        player = MediaPlayer().apply {
-            try {
 
-                setDataSource(filePath)
-                prepare()
-                start()
-            } catch (e: IOException) {
-                Log.e(LOG_TAG, "prepare() failed")
-            }
-        }
-    }
-
-    private fun releaseMediaPlayer() {
-        try {
-            player?.let {
-                if(it.isPlaying){
-                    it.stop()
-                    it.release()
-                    player = null
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
     private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
@@ -183,7 +157,6 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
         builder.setMessage("Are you sure you want to delete ${adapter.getRecordingAt(viewHolder.adapterPosition).audioName}?")
         builder.setPositiveButton("Delete") { _, _ ->
             songViewModel.deleteSong(recordingsList.get(viewHolder.adapterPosition))
-            releaseMediaPlayer()
           //  songViewModel.getAllSongFromDb()
             adapter.notifyItemRemoved(viewHolder.adapterPosition)
             showToast("Deleted")

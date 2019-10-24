@@ -150,7 +150,7 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
         var activity = context as MainActivity
         activity.bottomNavigation.visibility = View.VISIBLE
     }
-    
+
     private fun startFragment(fragment: Fragment) {
         fragmentManager!!
             .beginTransaction()
