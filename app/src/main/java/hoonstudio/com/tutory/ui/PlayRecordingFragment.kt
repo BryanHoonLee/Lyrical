@@ -25,6 +25,7 @@ private const val LOG_TAG = "AudioRecordTest"
 
 class PlayRecordingFragment : Fragment() {
     private var player: MediaPlayer? = null
+    private var oldPlayer: MediaPlayer? = null
     private lateinit var sharedRecordingViewModel: SharedRecordingViewModel
     private var recording: Song? = null
     private var length: Int? = null
@@ -44,24 +45,35 @@ class PlayRecordingFragment : Fragment() {
             ViewModelProviders.of(this).get(SharedRecordingViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        sharedRecordingViewModel.sharedRecording.observe(this, Observer {
-            recording = it
+        sharedRecordingViewModel.mediaPlayer.observe(this, Observer {
+            oldPlayer = it
+        })
+
+        sharedRecordingViewModel.sharedRecording.observe(this, Observer {song ->
+            recording = song
             Picasso
                 .get()
-                .load(it.songArtImageUrl)
+                .load(song.songArtImageUrl)
                 .into(image_view_song_art)
 
-            button_play.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    if(player == null){
-                        startPlaying(it.filePath)
-                    }else{
-                        resumeAudio()
+            button_play?.let {
+                button_play.setOnCheckedChangeListener { buttonView, isChecked ->
+                    if (isChecked) {
+                        if(player == null){
+                            oldPlayer?.let {
+                                it.release()
+                            }
+                            oldPlayer = null
+                            startPlaying(song.filePath)
+                        }else{
+                            resumeAudio()
+                        }
+                    } else {
+                        pauseAudio()
                     }
-                } else {
-                    pauseAudio()
                 }
             }
+
         })
     }
 
@@ -93,7 +105,7 @@ class PlayRecordingFragment : Fragment() {
         }
         player?.let {
             it.setOnCompletionListener {
-                if(button_play.isChecked){
+                if(button_play != null && button_play.isChecked){
                     button_play.toggle()
                 }
                 releaseMediaPlayer()
@@ -122,6 +134,13 @@ class PlayRecordingFragment : Fragment() {
         super.onAttach(context)
         var activity = context as MainActivity
         activity.bottomNavigation.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        player?.let {
+            sharedRecordingViewModel.setMediaPlayer(it)
+        }
     }
 
     companion object {
