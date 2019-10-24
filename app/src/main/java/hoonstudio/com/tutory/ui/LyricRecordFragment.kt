@@ -1,6 +1,7 @@
 package hoonstudio.com.tutory.ui
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.Bundle
@@ -20,6 +21,7 @@ import hoonstudio.com.tutory.data.network.response.Hit
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SharedHitViewModel
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_lyric_recording.*
 import kotlinx.android.synthetic.main.snippet_recorder.*
 import java.io.File
@@ -110,6 +112,12 @@ class LyricRecordFragment : Fragment() {
             }
             showToast("Recording Saved")
         })
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        var activity = context as MainActivity
+        activity.bottomNavigation.visibility = View.GONE
     }
 
     // Prompts user if they want to discard recording

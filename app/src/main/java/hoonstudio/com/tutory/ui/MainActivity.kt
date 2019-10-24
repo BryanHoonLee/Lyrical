@@ -7,6 +7,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.DialogInterface
 import android.os.Environment
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import hoonstudio.com.tutory.R
 import java.io.File
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId) {
             R.id.favorite -> {
-                val homeFragment = HomeFragment.newInstance()
+                val homeFragment = FavoriteFragment.newInstance()
                 startFragment(homeFragment)
                 return@OnNavigationItemSelectedListener true
             }
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigation = bottomNavigation
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        val homeFragment = HomeFragment.newInstance()
+        val homeFragment = FavoriteFragment.newInstance()
         initFragment(homeFragment)
     }
 

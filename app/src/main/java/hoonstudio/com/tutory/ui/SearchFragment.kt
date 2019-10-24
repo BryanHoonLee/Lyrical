@@ -1,5 +1,6 @@
 package hoonstudio.com.tutory.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import hoonstudio.com.tutory.data.viewmodel.SharedHitViewModel
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
 import hoonstudio.com.tutory.ui.adapter.SearchAdapter
 import hoonstudio.com.tutory.ui.adapter.SearchHistoryAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
@@ -106,7 +108,6 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
             searchViewModel.insertSearch(search)
         }
 
-
         val fragment = LyricRecordFragment.newInstance()
         startFragment(fragment)
     }
@@ -138,6 +139,18 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
         startFragment(fragment)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        var activity = context as MainActivity
+        activity.bottomNavigation.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var activity = context as MainActivity
+        activity.bottomNavigation.visibility = View.VISIBLE
+    }
+    
     private fun startFragment(fragment: Fragment) {
         fragmentManager!!
             .beginTransaction()

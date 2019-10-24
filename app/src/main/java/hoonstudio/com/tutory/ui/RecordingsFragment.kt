@@ -1,5 +1,6 @@
 package hoonstudio.com.tutory.ui
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
@@ -22,6 +23,7 @@ import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
 import hoonstudio.com.tutory.ui.adapter.RecordingsAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_recording.*
 import java.io.IOException
 import java.util.*
@@ -69,6 +71,8 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
     override fun onRecordingsItemClick(position: Int) {
         var filePath = recordingsList.get(position).filePath
         startPlaying(filePath)
+        val fragment = PlayRecordingFragment()
+        startFragment(fragment)
     }
 
     private fun startPlaying(filePath: String) {
@@ -191,6 +195,26 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        var activity = context as MainActivity
+        activity.bottomNavigation.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        var activity = context as MainActivity
+        activity.bottomNavigation.visibility = View.VISIBLE
+    }
+
+    private fun startFragment(fragment: Fragment) {
+        fragmentManager!!
+            .beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     fun showToast(message: String) {
