@@ -1,11 +1,14 @@
 package hoonstudio.com.tutory.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Environment
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +17,10 @@ import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
+
+    companion object{
+        val CHANNEL_ID = "hoonstudio.com.tutory.ui.MediaPlayerServiceChannel"
+    }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId) {
@@ -36,6 +43,32 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        initDirectory()
+        initNotificationChannel()
+
+        val bottomNavigation = bottomNavigation
+        bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        val homeFragment = FavoriteFragment.newInstance()
+        initFragment(homeFragment)
+    }
+
+    private fun initNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            var serviceChannel = NotificationChannel(
+                CHANNEL_ID,
+                "Media Player Service Channel",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            var manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(serviceChannel)
+        }
+    }
+
     private fun startFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
@@ -51,17 +84,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initDirectory()
-
-        val bottomNavigation = bottomNavigation
-        bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        val homeFragment = FavoriteFragment.newInstance()
-        initFragment(homeFragment)
-    }
 
     private fun initDirectory() {
         val folder = File("${Environment.getExternalStorageDirectory()}${File.separator}Lyrical")

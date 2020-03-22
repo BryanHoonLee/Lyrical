@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,8 +30,7 @@ class PlayRecordingFragment : Fragment() {
     private lateinit var sharedRecordingViewModel: SharedRecordingViewModel
     private var recording: Song? = null
     private var length: Int? = null
-
-
+    private var handler = Handler()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_play_recording, container, false)
@@ -104,6 +104,8 @@ class PlayRecordingFragment : Fragment() {
             }
         }
         player?.let {
+            // consider creating mediaplayer with singleton pattern
+            seekBar.max = it.duration/1000
             it.setOnCompletionListener {
                 if(button_play != null && button_play.isChecked){
                     button_play.toggle()
@@ -129,6 +131,8 @@ class PlayRecordingFragment : Fragment() {
             e.printStackTrace()
         }
     }
+
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
