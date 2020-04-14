@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.ui
+package hoonstudio.com.tutory
 
 import android.content.Context
 import android.os.Bundle
@@ -8,17 +8,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.network.response.Hit
 import hoonstudio.com.tutory.data.network.response.Result
 import hoonstudio.com.tutory.data.roomdb.entity.Search
 import hoonstudio.com.tutory.data.viewmodel.SearchHistoryViewModel
 import hoonstudio.com.tutory.data.viewmodel.SharedHitViewModel
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
-import hoonstudio.com.tutory.ui.adapter.SearchAdapter
-import hoonstudio.com.tutory.ui.adapter.SearchHistoryAdapter
+import hoonstudio.com.tutory.adapter.SearchAdapter
+import hoonstudio.com.tutory.adapter.SearchHistoryAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -108,8 +108,7 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
             searchViewModel.insertSearch(search)
         }
 
-        val fragment = LyricRecordFragment.newInstance()
-        startFragment(fragment)
+        navigateToLyricRecordFragment()
     }
 
     override fun onSearchHistoryItemClickListener(position: Int) {
@@ -135,8 +134,11 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
             hit = Hit(result)
             sharedSongViewModel.setSharedSong(hit)
         }
-        val fragment = LyricRecordFragment.newInstance()
-        startFragment(fragment)
+        navigateToLyricRecordFragment()
+    }
+
+    private fun navigateToLyricRecordFragment(){
+        findNavController().navigate(R.id.action_searchFragment_to_lyricRecordFragment)
     }
 
     override fun onAttach(context: Context) {
@@ -172,7 +174,4 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
 
     }
 
-    companion object {
-        fun newInstance(): SearchFragment = SearchFragment()
-    }
 }

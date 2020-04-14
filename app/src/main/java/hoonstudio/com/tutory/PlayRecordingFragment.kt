@@ -1,9 +1,9 @@
-package hoonstudio.com.tutory.ui
+package hoonstudio.com.tutory
 
 import android.content.Context
-import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.squareup.picasso.Picasso
-import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SharedRecordingViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_play_recording.*
-import kotlinx.android.synthetic.main.fragment_play_recording.view.*
 import kotlinx.android.synthetic.main.snippet_audio_player.*
 import java.io.IOException
 
@@ -29,8 +27,7 @@ class PlayRecordingFragment : Fragment() {
     private lateinit var sharedRecordingViewModel: SharedRecordingViewModel
     private var recording: Song? = null
     private var length: Int? = null
-
-
+    private var handler = Handler()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_play_recording, container, false)
@@ -45,11 +42,11 @@ class PlayRecordingFragment : Fragment() {
             ViewModelProviders.of(this).get(SharedRecordingViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        sharedRecordingViewModel.mediaPlayer.observe(this, Observer {
+        sharedRecordingViewModel.mediaPlayer.observe(viewLifecycleOwner, Observer {
             oldPlayer = it
         })
 
-        sharedRecordingViewModel.sharedRecording.observe(this, Observer {song ->
+        sharedRecordingViewModel.sharedRecording.observe(viewLifecycleOwner, Observer {song ->
             recording = song
             Picasso
                 .get()
@@ -104,6 +101,8 @@ class PlayRecordingFragment : Fragment() {
             }
         }
         player?.let {
+            // consider creating mediaplayer with singleton pattern
+            seekBar.max = it.duration/1000
             it.setOnCompletionListener {
                 if(button_play != null && button_play.isChecked){
                     button_play.toggle()
@@ -130,6 +129,8 @@ class PlayRecordingFragment : Fragment() {
         }
     }
 
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         var activity = context as MainActivity
@@ -141,9 +142,5 @@ class PlayRecordingFragment : Fragment() {
         player?.let {
             sharedRecordingViewModel.setMediaPlayer(it)
         }
-    }
-
-    companion object {
-        fun newInstance(): PlayRecordingFragment = PlayRecordingFragment()
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/favoriteFragment">
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        tools:layout="@layout/fragment_favorite"
+        android:name="hoonstudio.com.tutory.FavoriteFragment"
+        android:label="FavoriteFragment" />
+    <fragment
+        android:id="@+id/playRecordingFragment"
+        tools:layout="@layout/fragment_play_recording"
+        android:name="hoonstudio.com.tutory.PlayRecordingFragment"
+        android:label="PlayRecordingFragment" />
+    <fragment
+        android:id="@+id/recordingsFragment"
+        tools:layout="@layout/fragment_recordings"
+        android:name="hoonstudio.com.tutory.RecordingsFragment"
+        android:label="RecordingsFragment" >
+        <action
+            android:id="@+id/action_recordingsFragment_to_playRecordingFragment"
+            app:destination="@id/playRecordingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lyricRecordFragment"
+        tools:layout="@layout/fragment_lyric_recording"
+        android:name="hoonstudio.com.tutory.LyricRecordFragment"
+        android:label="LyricRecordFragment" />
+    <fragment
+        android:id="@+id/searchFragment"
+        tools:layout="@layout/fragment_search"
+        android:name="hoonstudio.com.tutory.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_lyricRecordFragment"
+            app:destination="@id/lyricRecordFragment" />
+    </fragment>
+</navigation>

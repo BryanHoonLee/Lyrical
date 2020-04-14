@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.ui.adapter
+package hoonstudio.com.tutory.adapter
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.ui
+package hoonstudio.com.tutory
 
 import android.Manifest
 import android.content.Context
@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.network.response.Hit
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SharedHitViewModel
@@ -75,7 +74,9 @@ class LyricRecordFragment : Fragment() {
                 button_save_recording.visibility = View.VISIBLE
 
                 // Brings up dialog, asking user for record permissions if not granted already
-                ActivityCompat.requestPermissions(activity!!, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+                ActivityCompat.requestPermissions(activity!!, permissions,
+                    REQUEST_RECORD_AUDIO_PERMISSION
+                )
                 // Since this is a dangerous permission, checks everytime if record permission is granted before
                 // audio recording starts when user presses record toggle button
                 if (ContextCompat.checkSelfPermission(activity!!, Manifest.permission.RECORD_AUDIO)
@@ -169,7 +170,7 @@ class LyricRecordFragment : Fragment() {
                 Log.e(LOG_TAG, filePath)
             }
             start()
-        }
+         }
     }
 
     private fun saveToDb(){
@@ -261,7 +262,4 @@ class LyricRecordFragment : Fragment() {
         recorder = null
     }
 
-    companion object {
-        fun newInstance(): LyricRecordFragment = LyricRecordFragment()
-    }
 }
