@@ -74,6 +74,10 @@ dependencies {
     // Materials
     implementation 'com.google.android.material:material:1.2.0-alpha02'
 
+    // Dagger
+    api 'com.google.dagger:dagger:2.27'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.27'
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'

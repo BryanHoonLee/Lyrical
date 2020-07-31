@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:background="@color/colorBlack"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBlack"
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
 
+    <ToggleButton
+        android:id="@+id/button_play"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/toggle_button_audio_player_background"
+        android:textOff=" "
+        android:textOn=" "
+        android:theme="@style/CardView.Dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ToggleButton android:layout_width="70dp"
-                  android:layout_height="70dp"
-                  android:id="@+id/button_play"
-                  android:background="@drawable/toggle_button_audio_player_background"
-                  android:theme="@style/CardView.Dark"
-                  app:layout_constraintTop_toTopOf="parent"
-                  app:layout_constraintStart_toStartOf="parent"
-                  app:layout_constraintBottom_toBottomOf="parent"
-                  android:layout_marginStart="16dp" android:layout_marginTop="8dp"
-                  android:layout_marginBottom="8dp"
-                  android:textOff=" " android:textOn=" "/>
     <SeekBar
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/seekBar" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@+id/button_play" android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/button_play"
-            app:layout_constraintTop_toTopOf="@+id/button_play" android:layout_marginBottom="8dp"/>
-
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:progressBackgroundTint="@color/colorGray"
+        android:progressTint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/button_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_play"
+        app:layout_constraintTop_toTopOf="@+id/button_play" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
