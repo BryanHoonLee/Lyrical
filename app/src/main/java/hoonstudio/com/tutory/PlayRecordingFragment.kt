@@ -1,7 +1,6 @@
-package hoonstudio.com.tutory.ui
+package hoonstudio.com.tutory
 
 import android.content.Context
-import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -9,16 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.squareup.picasso.Picasso
-import hoonstudio.com.tutory.R
-import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SharedRecordingViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_play_recording.*
-import kotlinx.android.synthetic.main.fragment_play_recording.view.*
 import kotlinx.android.synthetic.main.snippet_audio_player.*
 import java.io.IOException
 
@@ -26,13 +23,16 @@ private const val LOG_TAG = "AudioRecordTest"
 
 class PlayRecordingFragment : Fragment() {
     private var player: MediaPlayer? = null
-    private var oldPlayer: MediaPlayer? = null
     private lateinit var sharedRecordingViewModel: SharedRecordingViewModel
-    private var recording: Song? = null
     private var length: Int? = null
     private var handler = Handler()
+    private lateinit var ticker: Runnable
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_play_recording, container, false)
 
         return view
@@ -45,36 +45,71 @@ class PlayRecordingFragment : Fragment() {
             ViewModelProviders.of(this).get(SharedRecordingViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        sharedRecordingViewModel.mediaPlayer.observe(this, Observer {
-            oldPlayer = it
-        })
-
-        sharedRecordingViewModel.sharedRecording.observe(this, Observer {song ->
-            recording = song
+        sharedRecordingViewModel.sharedRecording.observe(viewLifecycleOwner, Observer { song ->
             Picasso
                 .get()
                 .load(song.songArtImageUrl)
                 .into(image_view_song_art)
 
-            button_play?.let {
-                button_play.setOnCheckedChangeListener { buttonView, isChecked ->
+            loadPlayer(song.filePath)
+
+            player?.let { mediaPlayer ->
+                mediaPlayer.setOnCompletionListener {
+                    if (button_play != null && button_play.isChecked) {
+                        seekBar.progress = 0
+                        button_play.toggle()
+                    }
+                    handler.removeCallbacks(ticker)
+                }
+            }
+
+            button_play?.let { button ->
+                button.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-                        if(player == null){
-                            oldPlayer?.let {
-                                it.release()
+                        player?.let { mediaPlayer ->
+                            if (!mediaPlayer.isPlaying && mediaPlayer.currentPosition == 0) {
+                                startPlaying(0)
+                            } else {
+                                resumeAudio()
                             }
-                            oldPlayer = null
-                            startPlaying(song.filePath)
-                        }else{
-                            resumeAudio()
                         }
                     } else {
                         pauseAudio()
                     }
                 }
             }
-
         })
+
+        ticker = Runnable {
+            player?.let { mediaPlayer ->
+                var currentPosition = mediaPlayer.currentPosition / 1000
+                seekBar.setProgress(currentPosition)
+                Log.d("eeee", "onActivityCreated: yikes")
+                handler.postDelayed(ticker, 500)
+            }
+        }
+
+        seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser){
+                    player?.let {mediaPlayer ->
+                        if(!mediaPlayer.isPlaying){
+                            button_play.toggle()
+                            startPlaying(progress * 1000)
+                        }else{
+                            mediaPlayer.seekTo(progress * 1000)
+                        }
+                    }
+                }
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+        })
+
     }
 
     private fun pauseAudio() {
@@ -91,28 +126,31 @@ class PlayRecordingFragment : Fragment() {
         }
     }
 
-    private fun startPlaying(filePath: String) {
-        releaseMediaPlayer()
+    private fun loadPlayer(filePath: String) {
         player = MediaPlayer().apply {
             try {
                 reset()
                 setDataSource(filePath)
                 prepare()
-                start()
             } catch (e: IOException) {
                 Log.e(LOG_TAG, "prepare() failed")
             }
         }
-        player?.let {
-            // consider creating mediaplayer with singleton pattern
-            seekBar.max = it.duration/1000
-            it.setOnCompletionListener {
-                if(button_play != null && button_play.isChecked){
-                    button_play.toggle()
-                }
-                releaseMediaPlayer()
-            }
+
+
+        seekBar.max = player?.let {
+            it.duration / 1000
+        } ?: 0
+    }
+
+    private fun startPlaying(time: Int) {
+        player?.let { mediaPlayer ->
+            mediaPlayer.seekTo(time)
+            Log.d("eeeee", "$time")
+            mediaPlayer.start()
         }
+        handler.postDelayed(ticker, 500)
+
     }
 
     private fun releaseMediaPlayer() {
@@ -122,7 +160,7 @@ class PlayRecordingFragment : Fragment() {
                     it.stop()
                     it.release()
                     player = null
-                }else{
+                } else {
                     it.release()
                     player = null
                 }
@@ -140,14 +178,8 @@ class PlayRecordingFragment : Fragment() {
         activity.bottomNavigation.visibility = View.GONE
     }
 
-    override fun onStop() {
-        super.onStop()
-        player?.let {
-            sharedRecordingViewModel.setMediaPlayer(it)
-        }
-    }
-
-    companion object {
-        fun newInstance(): PlayRecordingFragment = PlayRecordingFragment()
+    override fun onDestroy() {
+        super.onDestroy()
+        releaseMediaPlayer()
     }
 }

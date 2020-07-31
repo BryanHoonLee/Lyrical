@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.ui.adapter
+package hoonstudio.com.tutory.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,6 @@ import com.squareup.picasso.Picasso
 import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 import kotlinx.android.synthetic.main.item_recording.view.*
-import kotlinx.android.synthetic.main.item_song.view.*
 import kotlinx.android.synthetic.main.item_song.view.image_view_song_art
 import kotlinx.android.synthetic.main.item_song.view.text_view_artist
 import kotlinx.android.synthetic.main.item_song.view.text_view_title

@@ -12,12 +12,18 @@ class SharedRecordingViewModel: ViewModel(){
     private val _mediaPlayer = MutableLiveData<MediaPlayer>()
     val mediaPlayer = _mediaPlayer
 
+    private val _progress = MutableLiveData<Int>()
+    val progress = _progress
+
     fun setMediaPlayer(mediaPlayer: MediaPlayer){
         _mediaPlayer.value = mediaPlayer
     }
 
-
     fun setSharedRecording(song: Song){
         _sharedRecording.value = song
+    }
+
+    fun setProgress(progress: Int){
+        _progress.value = progress
     }
 }

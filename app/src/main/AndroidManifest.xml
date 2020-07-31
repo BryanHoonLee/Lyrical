@@ -14,7 +14,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity"
+        <activity android:name=".MainActivity"
                   android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,7 +23,11 @@
             </intent-filter>
         </activity>
         
+<<<<<<< HEAD
         <service android:name=".MediaPlayerService"
+=======
+        <service android:name=".MediaPlayerService"/>
+>>>>>>> jetpack
     </application>
 
 </manifest>

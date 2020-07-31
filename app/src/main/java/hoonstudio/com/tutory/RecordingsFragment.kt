@@ -1,11 +1,9 @@
-package hoonstudio.com.tutory.ui
+package hoonstudio.com.tutory
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +14,15 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import hoonstudio.com.tutory.R
 import hoonstudio.com.tutory.data.roomdb.entity.Song
 import hoonstudio.com.tutory.data.viewmodel.SharedRecordingViewModel
 import hoonstudio.com.tutory.data.viewmodel.SongViewModel
-import hoonstudio.com.tutory.ui.adapter.RecordingsAdapter
+import hoonstudio.com.tutory.adapter.RecordingsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_recording.*
-import java.io.IOException
 import java.util.*
 
 
@@ -71,8 +67,7 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
 
     override fun onRecordingsItemClick(position: Int) {
         sharedRecordingViewModel.setSharedRecording(recordingsList.get(position))
-        val fragment = PlayRecordingFragment()
-        startFragment(fragment)
+        navigateToPlayRecordingFragment()
     }
 
 
@@ -150,6 +145,10 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
+    private fun navigateToPlayRecordingFragment(){
+        findNavController().navigate(R.id.action_recordingsFragment_to_playRecordingFragment)
+    }
+
     private fun initAlertBuilder(viewHolder: RecyclerView.ViewHolder) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setCancelable(false)
@@ -196,9 +195,5 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
         }
         toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
         toast.show()
-    }
-
-    companion object {
-        fun newInstance(): RecordingsFragment = RecordingsFragment()
     }
 }

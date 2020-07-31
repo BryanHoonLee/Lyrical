@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.ui
+package hoonstudio.com.tutory
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import hoonstudio.com.tutory.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class FavoriteFragment : Fragment(){
@@ -40,9 +38,5 @@ class FavoriteFragment : Fragment(){
         super.onResume()
         var activity = context as MainActivity
         activity.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    companion object {
-        fun newInstance(): FavoriteFragment = FavoriteFragment()
     }
 }

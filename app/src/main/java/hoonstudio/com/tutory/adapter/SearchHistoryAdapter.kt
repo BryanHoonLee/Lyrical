@@ -1,4 +1,4 @@
-package hoonstudio.com.tutory.ui.adapter
+package hoonstudio.com.tutory.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import hoonstudio.com.tutory.R
-import hoonstudio.com.tutory.data.network.response.Hit
 import hoonstudio.com.tutory.data.roomdb.entity.Search
 
 class SearchHistoryAdapter(
