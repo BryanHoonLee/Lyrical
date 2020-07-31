@@ -67,7 +67,7 @@ class PlayRecordingFragment : Fragment() {
                 button.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
                         player?.let { mediaPlayer ->
-                            if (!mediaPlayer.isPlaying && mediaPlayer.currentPosition == 0) {
+                            if (!mediaPlayer.isPlaying) {
                                 startPlaying(0)
                             } else {
                                 resumeAudio()

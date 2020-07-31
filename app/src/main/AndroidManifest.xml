@@ -23,11 +23,9 @@
             </intent-filter>
         </activity>
         
-<<<<<<< HEAD
-        <service android:name=".MediaPlayerService"
-=======
+
         <service android:name=".MediaPlayerService"/>
->>>>>>> jetpack
+
     </application>
 
 </manifest>
