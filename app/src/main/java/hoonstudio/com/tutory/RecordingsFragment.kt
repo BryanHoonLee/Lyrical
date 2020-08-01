@@ -169,26 +169,6 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingsItemClickLi
         dialog.show()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        var activity = context as MainActivity
-        activity.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        var activity = context as MainActivity
-        activity.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    private fun startFragment(fragment: Fragment) {
-        fragmentManager!!
-            .beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
     fun showToast(message: String) {
         if (::toast.isInitialized && toast != null) {
             toast.cancel()

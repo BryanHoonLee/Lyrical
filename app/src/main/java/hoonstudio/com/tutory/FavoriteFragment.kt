@@ -28,15 +28,4 @@ class FavoriteFragment : Fragment(){
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        var activity = context as MainActivity
-        activity.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        var activity = context as MainActivity
-        activity.bottomNavigation.visibility = View.VISIBLE
-    }
 }

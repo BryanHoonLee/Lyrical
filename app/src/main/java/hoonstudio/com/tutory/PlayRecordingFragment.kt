@@ -27,6 +27,7 @@ class PlayRecordingFragment : Fragment() {
     private var length: Int? = null
     private var handler = Handler()
     private lateinit var ticker: Runnable
+    private var audioSessionId = -1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +53,12 @@ class PlayRecordingFragment : Fragment() {
                 .into(image_view_song_art)
 
             loadPlayer(song.filePath)
+
+            audioSessionId = player?.audioSessionId ?: -1
+            if (audioSessionId != -1) {
+                visualizer.setAudioSessionId(audioSessionId)
+                Log.d("eeeeee", "onActivityCreated: $audioSessionId")
+            }
 
             player?.let { mediaPlayer ->
                 mediaPlayer.setOnCompletionListener {
@@ -89,14 +96,14 @@ class PlayRecordingFragment : Fragment() {
             }
         }
 
-        seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
-                if(fromUser){
-                    player?.let {mediaPlayer ->
-                        if(!mediaPlayer.isPlaying){
+                if (fromUser) {
+                    player?.let { mediaPlayer ->
+                        if (!mediaPlayer.isPlaying) {
                             button_play.toggle()
                             startPlaying(progress * 1000)
-                        }else{
+                        } else {
                             mediaPlayer.seekTo(progress * 1000)
                         }
                     }
@@ -137,7 +144,6 @@ class PlayRecordingFragment : Fragment() {
             }
         }
 
-
         seekBar.max = player?.let {
             it.duration / 1000
         } ?: 0
@@ -150,7 +156,6 @@ class PlayRecordingFragment : Fragment() {
             mediaPlayer.start()
         }
         handler.postDelayed(ticker, 500)
-
     }
 
     private fun releaseMediaPlayer() {
@@ -170,16 +175,12 @@ class PlayRecordingFragment : Fragment() {
         }
     }
 
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        var activity = context as MainActivity
-        activity.bottomNavigation.visibility = View.GONE
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         releaseMediaPlayer()
+        handler.removeCallbacks(ticker)
+        if (visualizer != null) {
+            visualizer.release()
+        }
     }
 }

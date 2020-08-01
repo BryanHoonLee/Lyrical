@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Environment
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -52,6 +53,12 @@ class MainActivity : AppCompatActivity() {
         initNotificationChannel()
 
         val navController = findNavController(R.id.nav_host_fragment)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id){
+                R.id.playRecordingFragment -> bottomNavigation.visibility = View.GONE
+                else -> bottomNavigation.visibility = View.VISIBLE
+            }
+        }
         val bottomNavigation = bottomNavigation
         bottomNavigation.setupWithNavController(navController)
 
