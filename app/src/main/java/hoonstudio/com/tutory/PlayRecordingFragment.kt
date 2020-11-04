@@ -63,9 +63,9 @@ class PlayRecordingFragment : Fragment() {
             player?.let { mediaPlayer ->
                 mediaPlayer.setOnCompletionListener {
                     if (button_play != null && button_play.isChecked) {
-                        seekBar.progress = 0
                         button_play.toggle()
                     }
+                    seekBar.progress = 0
                     handler.removeCallbacks(ticker)
                 }
             }
@@ -111,9 +111,11 @@ class PlayRecordingFragment : Fragment() {
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
+
             }
 
             override fun onStopTrackingTouch(p0: SeekBar?) {
+
             }
         })
 

@@ -141,26 +141,6 @@ class SearchFragment : Fragment(), SearchAdapter.OnSearchItemClickListener,
         findNavController().navigate(R.id.action_searchFragment_to_lyricRecordFragment)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        var activity = context as MainActivity
-        activity.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        var activity = context as MainActivity
-        activity.bottomNavigation.visibility = View.VISIBLE
-    }
-
-    private fun startFragment(fragment: Fragment) {
-        fragmentManager!!
-            .beginTransaction()
-            .replace(R.id.container, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
     private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
